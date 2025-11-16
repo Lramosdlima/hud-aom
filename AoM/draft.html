@@ -8,7 +8,8 @@
       margin: 0;
       background: url('assets/fundo.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: sans-serif;
+      /* font-family: sans-serif; */
+      font-family: 'Transcend', sans-serif;
     }
 
     .hud {
@@ -35,28 +36,32 @@
     .campo-placar {
       position: absolute;
       color: white;
-      font-family: sans-serif;
-      font-size: 110px;
+      font-size: 90px;
       font-weight: bold;
-      top: 180px;
+      top: 60px;
     }
 
     #placar-1 {
-      left: 125px;
+      left: 130px;
 
     }
 
     #placar-2 {
-      right: 122px;
+      right: 125px;
     }
 
     .campo-nome {
+      color: #ecc884;
+      font-size: 0.75em;
+      font-weight: bold;
+      padding: 1px 2px;
+      border-radius: 8px;
       position: absolute;
-      color: rgb(255, 255, 255);
-      top: 135px;
-      font-size: 32px;
+      top: 185px;
+      font-size: 30px;
       transform: translateX(-50%);
       white-space: nowrap;
+      font-family: 'Transcend', Arial, sans-serif;
     }
 
     #jogador-1 {
@@ -67,20 +72,36 @@
       left: 1766px;
     }
 
-    .bandeira {
-      width: 55px;
+    .avatar {
+      width: 95px;
       height: auto;
       position: absolute;
-      top: 79.5px;
-      transform: translateY(-50%);
+      top: 225px;
+      border-radius: 50%;
+      border: 3px solid #2e2208;
     }
 
-    #bandeira-1 {
-      left: 126px;
+    #avatar-1 {
+      left: 103px;
     }
 
-    #bandeira-2 {
-      right: 127px;
+    #avatar-2 {
+      right: 101px;
+    }
+
+    .avatar-border {
+      /* width: 95px; */
+      height: auto;
+      position: absolute;
+      top: 240px;
+    }
+
+    #avatar-border-1 {
+      left: 1px;
+    }
+
+    #avatar-border-2 {
+      right: 1px;
     }
 
     #fase {
@@ -243,14 +264,16 @@
   <div class="hud">
     <div class="layout" id="layout"></div>
 
-    <div id="fase"></div>
+    <!-- <div id="fase"></div> -->
     <div class="campo-placar" id="placar-1">0</div>
     <div class="campo-placar" id="placar-2">0</div>
     <div class="campo-nome" id="jogador-1"></div>
     <div class="campo-nome" id="jogador-2"></div>
-    <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
-    <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
-    <img id="logo-campeonato" src="" alt="Logo Campeonato">
+    <img id="avatar-1" class="avatar" src="" alt="Avatar Azul">
+    <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
+    <img id="avatar-border-1" class="avatar-border" src="assets/avatar-border-1.png" alt="Borda Azul">
+    <img id="avatar-border-2" class="avatar-border" src="assets/avatar-border-2.png" alt="Borda Vermelha">
+    <!-- <img id="logo-campeonato" src="" alt="Logo Campeonato"> -->
     <div id="proxima-partida">Próxima partida:</div>
     <img id="imagem-mapa" src="" alt="Imagem do Mapa">
     <img id="god-1" class="deus" src="" alt="Deus 1">
@@ -296,10 +319,15 @@
         document.getElementById('placar-2').textContent = dados.placar_2 || '0';
         document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
         document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
-        document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
-        document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
-        document.getElementById('fase').textContent = dados.fase || '';
-        document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
+
+        document.getElementById('avatar-1').src = dados.avatar_1 || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg';
+        document.getElementById('avatar-2').src = dados.avatar_2 || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg';
+        // document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
+        // document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
+        // document.getElementById('bandeira-1').src = 'https://avatars.steamstatic.com/7100b6df9bb4b04fde61a1381041cf30b36b3c66_medium.jpg';
+        // document.getElementById('bandeira-2').src = 'https://avatars.steamstatic.com/097e9348a2cb2b97527eb8f1cf8582e4b7c3fdca_medium.jpg';
+        // document.getElementById('fase').textContent = dados.fase || '';
+        // document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
 
         const nomeMapa = dados.mapa || '';
         document.getElementById('nome-mapa').textContent = nomeMapa;
