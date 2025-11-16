@@ -1,21 +1,25 @@
 letreiro= 1
 
-logo_camp= champS4
-fase= 
+logo_camp= torneio de verao
+fase= Eliminatória
 
-mapa= null
-gods= null,null
+mapa= Acropolis
+gods= amaterasu_1,ra_2
 
-placar_1= 0
-jogador_1= 
-pais_1= null
-gods_1= null
-maps_1= null
+placar_1= 2
+jogador_1= Kenjizilla
+avatar_1= https://avatars.steamstatic.com/0e96fd1da4c91017a7c1de980d6361b139e6831d_medium.jpg
+pais_1= brasil
+gods_1= freyr_p,tsukuyomi_p,susanoo_p
+maps_1= acropolis_p
 
-placar_2= 0
-jogador_2= 
-pais_2= null
-gods_2= null
-maps_2= null
-cor1=azul
-cor2=vermelho
+placar_2= 1
+jogador_2= Milano
+avatar_2= https://yt3.googleusercontent.com/5Nuq1XPwUyg7Jkvb0oWGOSGN_ar-RDxEA3LXOBufeftuq_HvKz9lDP633MAmCKpgApjKMln52w=s160-c-k-c0x00ffffff-no-rj
+pais_2= japao
+gods_2= ra_p,isis_p,set_p
+maps_2= air_p
+cor1=rosa
+cor2=verdeagua
+partida1= 1. Light:ra,amaterasu,Acropolis,B
+partida2= 2. Scooby:freyr,set,air,A
