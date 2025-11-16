@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background: url('assets/fundo.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+    }
+
+    .hud {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+    }
+
+    .layout {
+      background: no-repeat center;
+      background-size: contain;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    /*@font-face {
+      font-family: 'Poppins Light';
+      src: url('/assets/Fontes/Poppins/Poppins-Light.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }*/
+
+    .campo-placar {
+      position: absolute;
+      color: white;
+      font-family: sans-serif;
+      font-size: 110px;
+      font-weight: bold;
+      top: 180px;
+    }
+
+    #placar-1 {
+      left: 125px;
+
+    }
+
+    #placar-2 {
+      right: 122px;
+    }
+
+    .campo-nome {
+      position: absolute;
+      color: rgb(255, 255, 255);
+      top: 135px;
+      font-size: 32px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    #jogador-1 {
+      left: 153px;
+    }
+
+    #jogador-2 {
+      left: 1766px;
+    }
+
+    .bandeira {
+      width: 55px;
+      height: auto;
+      position: absolute;
+      top: 79.5px;
+      transform: translateY(-50%);
+    }
+
+    #bandeira-1 {
+      left: 126px;
+    }
+
+    #bandeira-2 {
+      right: 127px;
+    }
+
+    #fase {
+      position: absolute;
+      bottom: 620px;
+      left: 18%;
+      transform: translateX(-50%);
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      font-size: 35px;
+      font-family: sans-serif;
+      z-index: 5;
+      -webkit-text-stroke-width: 0.5px;
+      -webkit-text-stroke-color: rgb(255, 254, 193);
+    }
+
+    #logo-campeonato {
+      position: absolute;
+      bottom: 290px;
+      left: 18%;
+      transform: translate(-50%, 0%);
+      width: 450px;
+      height: auto;
+      z-index: 10;
+    }
+
+    #proxima-partida {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: rgb(252, 252, 252);
+      font-weight: bold;
+      z-index: 5;
+    }
+
+    #imagem-mapa {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      width: 180px;
+      height: auto;
+      z-index: 1;
+    }
+
+    .deus {
+      width: 570px;
+      height: auto;
+      position: absolute;
+      top: 35px;
+      z-index: 5;
+    }
+
+    #god-1 {
+      left: 285px;
+    }
+
+    #god-2 {
+      right: 285px;
+    }
+
+    #nome-mapa {
+      display: none;
+    }
+
+    .pick-ban-row {
+      position: absolute;
+      display: flex;
+      gap: 10px;
+      transform: translateX(-50%);
+    }
+
+    #gods-1 {
+      top: 867.5px;
+      left: 24.3%;
+    }
+
+    #maps-1 {
+      top: 967px;
+      left: 24.3%;
+    }
+
+    #gods-2 {
+      top: 867.5px;
+      left: 75.5%;
+    }
+
+    #maps-2 {
+      top: 967px;
+      left: 75.5%;
+    }
+
+    .pick-ban-row img {
+      width: 78px;
+      height: auto;
+    }
+
+    .pick-ban-row.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .resultados-partidas {
+      position: absolute;
+      left: 50%;
+      bottom: 42.8%;
+      transform: translate(-50%, 50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-family: sans-serif;
+      font-weight: lighter;
+      color: rgb(255, 255, 255);
+      font-size: 20px;
+    }
+
+    .partida {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .deus-img {
+      width: 55px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .mapa-img {
+      width: 55px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cinza {
+      filter: grayscale(90%);
+    }
+
+    .nome {
+      margin-right: 2px;
+    }
+
+    .partida.esquerda {
+      padding: 2px 5px;
+      border-radius: 6px;
+      background: linear-gradient(to right, rgba(25, 25, 85, 0.7) 1%, transparent 100%);
+    }
+
+    .partida.direita {
+      justify-content: flex-end;
+      padding: 2px 4px;
+      border-radius: 6px;
+      background: linear-gradient(to left, rgba(116, 23, 23, 0.7) 1%, transparent 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hud">
+    <div class="layout" id="layout"></div>
+
+    <div id="fase"></div>
+    <div class="campo-placar" id="placar-1">0</div>
+    <div class="campo-placar" id="placar-2">0</div>
+    <div class="campo-nome" id="jogador-1"></div>
+    <div class="campo-nome" id="jogador-2"></div>
+    <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
+    <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
+    <img id="logo-campeonato" src="" alt="Logo Campeonato">
+    <div id="proxima-partida">Próxima partida:</div>
+    <img id="imagem-mapa" src="" alt="Imagem do Mapa">
+    <img id="god-1" class="deus" src="" alt="Deus 1">
+    <img id="god-2" class="deus" src="" alt="Deus 2">
+    <div id="nome-mapa"></div>
+    <div class="resultados-partidas" id="resultados-partidas"></div>
+
+    <!-- Picks & Bans gods e maps -->
+    <div id="gods-1" class="pick-ban-row reverse"></div>
+    <div id="gods-2" class="pick-ban-row"></div>
+    <div id="maps-1" class="pick-ban-row reverse"></div>
+    <div id="maps-2" class="pick-ban-row"></div>
+  </div>
+
+  <script>
+    const gerarNomeArquivo = (nome) => {
+      return nome
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+    };
+
+    async function atualizarCampos() {
+      try {
+        const response = await fetch('dados.txt?_=' + new Date().getTime());
+        const texto = await response.text();
+        const linhas = texto.split('\n');
+
+        let dados = {};
+        linhas.forEach(linha => {
+          const linhaLimpa = linha.trim();
+          if (!linhaLimpa || linhaLimpa.startsWith('#')) return;
+          const [chave, valor] = linhaLimpa.split('=');
+          if (chave && valor) dados[chave.trim()] = valor.trim();
+        });
+
+        document.getElementById('layout').style.backgroundImage = "url('assets/layout.png')";
+
+        const getBandeira = (pais) => pais ? `bandeiras/${pais.toLowerCase()}.png` : '';
+
+        document.getElementById('placar-1').textContent = dados.placar_1 || '0';
+        document.getElementById('placar-2').textContent = dados.placar_2 || '0';
+        document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
+        document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
+        document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
+        document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
+        document.getElementById('fase').textContent = dados.fase || '';
+        document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
+
+        const nomeMapa = dados.mapa || '';
+        document.getElementById('nome-mapa').textContent = nomeMapa;
+        document.getElementById('imagem-mapa').src = nomeMapa
+          ? `mapas/${gerarNomeArquivo(nomeMapa)}.png`
+          : '';
+
+        const gods = (dados.gods || '').split(',');
+        document.getElementById('god-1').src = gods[0] ? `gods/${gods[0].toLowerCase()}.png` : '';
+        document.getElementById('god-2').src = gods[1] ? `gods/${gods[1].toLowerCase()}.png` : '';
+
+        const maps = (dados.gods || '').split(',');
+        document.getElementById('maps-1').src = gods[0] ? `mapas/${maps[0].toLowerCase()}.png` : '';
+        document.getElementById('maps-2').src = gods[1] ? `mapas/${maps[1].toLowerCase()}.png` : '';
+
+        const atualizarListaImagens = (id, lista) => {
+          const container = document.getElementById(id);
+          container.innerHTML = '';
+          const isMap = id.includes('maps'); // detecta se é mapa
+          const pasta = isMap ? 'mapas' : 'gods';
+
+          lista.forEach(nome => {
+            const img = document.createElement('img');
+            img.src = `${pasta}/${gerarNomeArquivo(nome)}.png`;
+            container.appendChild(img);
+          });
+        };
+
+        atualizarListaImagens('gods-1', (dados.gods_1 || '').split(',').filter(x => x));
+        atualizarListaImagens('gods-2', (dados.gods_2 || '').split(',').filter(x => x));
+        atualizarListaImagens('maps-1', (dados.maps_1 || '').split(',').filter(x => x));
+        atualizarListaImagens('maps-2', (dados.maps_2 || '').split(',').filter(x => x));
+
+        async function carregarDados() {
+          try {
+            const response = await fetch('dados.txt?_=' + new Date().getTime());
+            const texto = await response.text();
+            const linhas = texto.split('\n');
+            const dados = {};
+
+            linhas.forEach(linha => {
+              const [chave, valor] = linha.split('=');
+              if (chave && valor !== undefined) {
+                dados[chave.trim()] = valor.trim();
+              }
+            });
+
+            exibirPartidas(dados);
+          } catch (err) {
+            console.error('Erro ao carregar dados.txt:', err);
+          }
+        }
+
+        function exibirPartidas(dados) {
+          const container = document.getElementById('resultados-partidas');
+          container.innerHTML = '';
+
+          let partidas = [];
+          for (let i = 1; i <= 99; i++) {
+            const key = `partida${i}`;
+            if (dados[key]) partidas.push(dados[key]);
+          }
+
+          if (partidas.length > 6) {
+            partidas = partidas.slice(-6);
+          }
+
+          partidas.forEach(linha => {
+            const valores = linha.split(',');
+            if (valores.length < 4) return;
+
+            const [vencInfo, perdDeus, mapa, vencedorValor] = valores.map(s => s.trim());
+            if (!vencInfo || !perdDeus || !mapa || !vencedorValor) return;
+
+            // Remove o número da partida (antes do nome)
+            const vencInfoLimpo = vencInfo.replace(/^\d+\.\s*/, '');
+            const [vencNome, vencDeus] = vencInfoLimpo.split(':');
+            if (!vencNome || !vencDeus) return;
+
+            const partidaDiv = document.createElement('div');
+            partidaDiv.className = 'partida';
+
+            if (vencedorValor === "B") {
+              partidaDiv.classList.add("direita");
+            } else {
+              partidaDiv.classList.add("esquerda");
+            }
+
+            const nomeSpan = document.createElement('span');
+            nomeSpan.className = 'nome';
+            nomeSpan.textContent = vencNome;
+
+            const imgVencedor = document.createElement('img');
+            imgVencedor.className = 'deus-img';
+            imgVencedor.src = `gods/${vencDeus.toLowerCase()}.png`;
+
+            const imgMapa = document.createElement('img');
+            imgMapa.className = 'mapa-img';
+            imgMapa.src = `mapas/${mapa.toLowerCase().replace(/\s+/g, '')}.png`;
+
+            const imgPerdedor = document.createElement('img');
+            imgPerdedor.className = 'deus-img cinza';
+            imgPerdedor.src = `gods/${perdDeus.toLowerCase()}.png`;
+
+            if (vencedorValor === "B") {
+              partidaDiv.appendChild(imgPerdedor);
+              partidaDiv.appendChild(imgMapa);
+              partidaDiv.appendChild(imgVencedor);
+              partidaDiv.appendChild(nomeSpan);
+            } else {
+              partidaDiv.appendChild(nomeSpan);
+              partidaDiv.appendChild(imgVencedor);
+              partidaDiv.appendChild(imgMapa);
+              partidaDiv.appendChild(imgPerdedor);
+            }
+
+            container.appendChild(partidaDiv);
+          });
+        }
+
+        carregarDados();
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+
+    atualizarCampos();
+    setInterval(atualizarCampos, 2000);
+  </script>
+</body>
+
+</html>

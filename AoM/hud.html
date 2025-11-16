@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background: url('assets/fundo.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: sans-serif;
+    }
+
+    .hud {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+    }
+
+    .layout {
+      background: no-repeat center;
+      background-size: contain;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .campo-placar {
+      position: absolute;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      font-size: 80px;
+      font-weight: bold;
+      top: -0.45%;
+      z-index: 11;
+    }
+
+    #placar-1 {
+      left: 608px;
+    }
+
+    #placar-2 {
+      right: 607px;
+    }
+
+    .campo-nome {
+      position: absolute;
+      color: white;
+      top: 55.3px;
+      font-size: 20px;
+      transform: translateX(-50%);
+      z-index: 12;
+    }
+
+    #jogador-1 {
+      left: 483px;
+    }
+
+    #jogador-2 {
+      left: 1439px;
+    }
+
+    .bandeira {
+      width: 30px;
+      height: auto;
+      position: absolute;
+      top: 66.1px;
+      transform: translateY(-50%);
+      z-index: 12;
+    }
+
+    #bandeira-1 {
+      left: 358px;
+    }
+
+    #bandeira-2 {
+      right: 358px;
+    }
+
+    #fase {
+      position: absolute;
+      bottom: 270px;
+      left: 9.90%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 22px;
+      font-family: 'Verdana', sans-serif;
+      z-index: 20;
+    }
+
+    #logo-campeonato {
+      position: absolute;
+      bottom: 18px;
+      left: 9.90%;
+      transform: translate(-50%, 0%);
+      width: 370px;
+      height: 231.25px;
+      z-index: 10;
+    }
+
+
+    #nome-mapa {
+      position: absolute;
+      bottom: 2.5%;
+      right: 9.4%;
+      transform: translateX(50%);
+      color: white;
+      font-size: 24px;
+      font-family: 'Verdana', sans-serif;
+      z-index: 10;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    #cor1 {
+      position: absolute;
+      z-index: 1;
+      /* fica atrás */
+    }
+
+    #cor2 {
+      position: absolute;
+      z-index: 2;
+      /* fica na frente */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hud">
+    <div class="layout" id="layout"></div>
+    <div id="fase"></div>
+    <div class="campo-placar" id="placar-1">0</div>
+    <div class="campo-placar" id="placar-2">0</div>
+    <div class="campo-nome" id="jogador-1"></div>
+    <div class="campo-nome" id="jogador-2"></div>
+    <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
+    <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
+    <img id="logo-campeonato" src="" alt="Logo Campeonato">
+    <div id="nome-mapa"></div>
+    <img id="cor1" class="flag-hud" src="" alt="Flag Esquerda">
+    <img id="cor2" class="flag-hud" src="" alt="Flag Direita">
+
+  </div>
+
+  <script>
+    async function atualizarCampos() {
+      try {
+        const response = await fetch('dados.txt?_=' + new Date().getTime());
+        const texto = await response.text();
+        const linhas = texto.split('\n');
+
+        let dados = {};
+        linhas.forEach(linha => {
+          const [chave, valor] = linha.split('=');
+          if (chave && valor) dados[chave.trim()] = valor.trim();
+        });
+
+        const interfaceSelecionada = dados.interface || '1';
+        const letreiro = dados.letreiro || '1';
+
+        const layout = document.getElementById('layout');
+        layout.style.backgroundImage = interfaceSelecionada === '2'
+          ? "url('assets/interface2.png')"
+          : "url('assets/interface.png')";
+
+        const getBandeira = (pais) => pais ? `bandeiras/${pais.toLowerCase()}.png` : '';
+
+        if (letreiro === '2') {
+          document.getElementById('placar-1').textContent = dados.placar_2 || '0';
+          document.getElementById('placar-2').textContent = dados.placar_1 || '0';
+          document.getElementById('jogador-1').textContent = dados.jogador_2 || '';
+          document.getElementById('jogador-2').textContent = dados.jogador_1 || '';
+          document.getElementById('bandeira-1').src = getBandeira(dados.pais_2);
+          document.getElementById('bandeira-2').src = getBandeira(dados.pais_1);
+        } else {
+          document.getElementById('placar-1').textContent = dados.placar_1 || '0';
+          document.getElementById('placar-2').textContent = dados.placar_2 || '0';
+          document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
+          document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
+          document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
+          document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
+        }
+
+        // Carregar flags coloridas para a HUD
+        document.getElementById('cor1').src = dados.cor1 ? `assets/Flags/flagE_${dados.cor1}.png` : '';
+        document.getElementById('cor2').src = dados.cor2 ? `assets/Flags/flagD_${dados.cor2}.png` : '';
+
+
+
+        document.getElementById('fase').textContent = dados.fase || '';
+        document.getElementById('nome-mapa').textContent = dados.mapa || '';
+        document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
+
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      atualizarImagem('cor1', 'cor1');
+      atualizarImagem('cor2', 'cor2');
+
+      document.getElementById('cor1').addEventListener('change', () => {
+        atualizarImagem('cor1', 'cor1');
+      });
+
+      document.getElementById('cor2').addEventListener('change', () => {
+        atualizarImagem('cor2', 'cor2');
+      });
+    });
+    atualizarCampos();
+    setInterval(atualizarCampos, 2000);
+  </script>
+</body>
+
+</html>
