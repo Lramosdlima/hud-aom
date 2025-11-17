@@ -42,12 +42,12 @@
     }
 
     #placar-1 {
-      left: 130px;
+      left: 124px;
 
     }
 
     #placar-2 {
-      right: 125px;
+      right: 124px;
     }
 
     .campo-nome {
@@ -335,8 +335,8 @@
           : '';
 
         const gods = (dados.gods || '').split(',');
-        document.getElementById('god-1').src = gods[0] ? `gods/${gods[0].toLowerCase()}.png` : '';
-        document.getElementById('god-2').src = gods[1] ? `gods/${gods[1].toLowerCase()}.png` : '';
+        document.getElementById('god-1').src = gods[0] ? `gods/infos_gods_${gods[0].toLowerCase()}.png` : '';
+        document.getElementById('god-2').src = gods[1] ? `gods/infos_gods_${gods[1].toLowerCase()}.png` : '';
 
         const maps = (dados.gods || '').split(',');
         document.getElementById('maps-1').src = gods[0] ? `mapas/${maps[0].toLowerCase()}.png` : '';
