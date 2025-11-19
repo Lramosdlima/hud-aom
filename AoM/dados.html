@@ -225,12 +225,12 @@
       <div class="section-title">Informações do Campeonato</div>
 
       <div style="margin-bottom: 10px;">
-        <label for="logo_camp">Campeonato:</label><br>
-        <input type="text" id="logo_camp" placeholder="Nome do Campeonato" style="width: 100%; padding: 5px;">
+        <label for="logo_camp">Logo do Campeonato*</label><br>
+        <input type="text" id="logo_camp" placeholder="Nome do PNG do Campeonato na pasta" style="width: 100%; padding: 5px;">
       </div>
 
       <div style="margin-bottom: 10px;">
-        <label for="fase">Fase:</label><br>
+        <label for="fase">Fase*</label><br>
         <input type="text" id="fase" placeholder="Ex: Quartas de Final Winner - Md5" style="width: 100%; padding: 5px;">
       </div>
 
@@ -246,7 +246,7 @@
 
       <div style="margin-bottom: 10px; display: flex; gap: 10px;">
         <div style="flex: 1;">
-          <label for="cor1">Cor Esquerda:</label><br>
+          <label for="cor1">Cor Esquerda</label><br>
           <select id="cor1" style="width: 100%; padding: 5px;">
             <option value="azul">Azul</option>
             <option value="vermelho">Vermelho</option>
@@ -263,7 +263,7 @@
           </select>
         </div>
         <div style="flex: 1;">
-          <label for="cor2">Cor Direita:</label><br>
+          <label for="cor2">Cor Direita</label><br>
           <select id="cor2" style="width: 100%; padding: 5px;">
             <option value="vermelho">Vermelho</option>
             <option value="azul">Azul</option>
@@ -283,7 +283,7 @@
 
 
       <div style="margin-bottom: 10px;">
-        <label for="letreiro">Letreiro:</label><br>
+        <label for="letreiro">Posição dos Jogadores no Letreiro</label><br>
         <select id="letreiro" style="width: 100%; padding: 5px;">
           <option value="1">Player 1 | Player 2</option>
           <option value="2">Player 2 | Player 1</option>
@@ -302,7 +302,7 @@
     <div class="resultado-partida">
       <h3 class="section-title">Informações da Partida</h3>
       <div style="margin-bottom: 10px;">
-        <label for="mapaSelect">Mapa:</label><br>
+        <label for="mapaSelect">Mapa</label><br>
         <select id="mapaSelect" style="width: 100%; padding: 5px;">
           <option value="null" title="Selecione um Mapa">Selecione um Mapa</option>
           <option value="Random" title="Mapa aleatório">Random</option>
@@ -361,8 +361,8 @@
 
       <div class="versus">
         <div class="linha-labels">
-          <label class="versusSelect1" for="versusSelect1">God 1:</label>
-          <label class="versusSelect2" for="versusSelect2">God 2:</label>
+          <label class="versusSelect1" for="versusSelect1">God 1</label>
+          <label class="versusSelect2" for="versusSelect2">God 2</label>
         </div>
         <div class="linha-selects">
           <select id="versusSelect1" style="width: 100%; padding: 5px;">
@@ -425,11 +425,13 @@
 
 
   <div class="scoreboard">
-    <!-- JOGADOR 1 -->
     <div class="player1">
+      <h3 class="section-title">Jogador 1</h3>
+      <br>
       <div class="nome-pais">
         <input type="text" id="jogador1" placeholder="Nome Jogador 1"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
+        <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1">
         <select id="pais1" onchange="atualizarBandeira('pais1', 'bandeira1')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -548,11 +550,13 @@
       </div>
     </div>
 
-    <!-- JOGADOR 2 -->
     <div class="player2">
+      <h3 class="section-title">Jogador 2</h3>
+      <br>
       <div class="nome-pais">
         <input type="text" id="jogador2" placeholder="Nome Jogador 2"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
+        <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2">
         <select id="pais2" onchange="atualizarBandeira('pais2', 'bandeira2')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -729,6 +733,9 @@
         if (dados.jogador_1) document.getElementById("jogador1").value = dados.jogador_1;
         if (dados.jogador_2) document.getElementById("jogador2").value = dados.jogador_2;
 
+        if (dados.avatar_1) document.getElementById("avatar1").value = dados.avatar_1;
+        if (dados.avatar_2) document.getElementById("avatar2").value = dados.avatar_2;
+
         if (dados.pais_1) {
           document.getElementById("pais1").value = dados.pais_1;
           atualizarBandeira("pais1", "bandeira1");
@@ -783,6 +790,7 @@
       document.querySelector(".jogadorv1").textContent = `${nome1} Venceu`;
       document.querySelector(".jogadorv2").textContent = `${nome2} Venceu`;
     }
+
 
     function carregarItens(tipo, jogador) {
       const container = document.querySelector(`.${tipo}-grid[data-jogador="${jogador}"]`);
@@ -850,7 +858,7 @@
       const j1 = document.getElementById("jogador1").value || "Jogador 1";
       const j2 = document.getElementById("jogador2").value || "Jogador 2";
 
-      if (!vencedorId || !mapa === "null" || g1 === "null" || g2 === "null") {
+      if (mapa === "null" || g1 === "null" || g2 === "null") {
         alert("Preencha todos os campos corretamente para registrar o resultado.");
         return;
       }
@@ -966,12 +974,14 @@
       dados.push(`placar_1= ${document.getElementById('placar1').textContent}`);
       dados.push(`jogador_1= ${document.getElementById('jogador1').value}`);
       dados.push(`pais_1= ${document.getElementById('pais1').value}`);
+      dados.push(`avatar_1= ${document.getElementById('avatar1').value}`);
       dados.push(`gods_1= ${coletarDraft(1, 'god').join(',') || 'null'}`);
       dados.push(`maps_1= ${coletarDraft(1, 'map').join(',') || 'null'}`);
 
       dados.push(`placar_2= ${document.getElementById('placar2').textContent}`);
       dados.push(`jogador_2= ${document.getElementById('jogador2').value}`);
       dados.push(`pais_2= ${document.getElementById('pais2').value}`);
+      dados.push(`avatar_2= ${document.getElementById('avatar2').value}`);
       dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
       dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
@@ -980,6 +990,9 @@
 
     // === Carregar dados do localStorage ao abrir a página ===
     window.addEventListener("DOMContentLoaded", () => {
+          // Já está sendo feito no window.onload(), mantendo a estrutura existente
+      // Apenas adicionando as chamadas de atualização de bandeira e avatar.
+
       const dadosSalvos = localStorage.getItem("dadosInterface");
       if (!dadosSalvos) return;
 
@@ -1004,6 +1017,9 @@
       if (mapa.pais_1) document.getElementById("pais1").value = mapa.pais_1;
       if (mapa.pais_2) document.getElementById("pais2").value = mapa.pais_2;
 
+      if (mapa.avatar_1) document.getElementById("avatar1").textContent = mapa.avatar_1;
+      if (mapa.avatar_2) document.getElementById("avatar2").textContent = mapa.avatar_2;
+
       // Atualiza letreiro visualmente
       if (typeof atualizarLetreiroComNomes === "function") {
         atualizarLetreiroComNomes();
@@ -1013,7 +1029,56 @@
     });
 
 
-    function salvarDados() {
+ function salvarDados() {
+      // 1. VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
+      const camposObrigatorios = [
+        { id: 'letreiro', nome: 'Letreiro' },
+        { id: 'logo_camp', nome: 'Campeonato' },
+        { id: 'fase', nome: 'Fase' },
+        { id: 'jogador1', nome: 'Jogador 1' },
+        { id: 'cor1', nome: 'Cor Esquerda' },
+        { id: 'jogador2', nome: 'Jogador 2' },
+        { id: 'cor2', nome: 'Cor Direita' },
+        { id: 'mapaSelect', nome: 'Mapa' },
+        { id: 'versusSelect1', nome: 'God 1 (Versus)' },
+        { id: 'versusSelect2', nome: 'God 2 (Versus)' }
+      ];
+
+      const camposFaltantes = [];
+
+      camposObrigatorios.forEach(campo => {
+        const elemento = document.getElementById(campo.id);
+        if (!elemento) return;
+
+        let valor = elemento.value.trim();
+        let isMissing = false;
+        
+        // Verifica se o valor é vazio
+        if (valor === '') {
+          isMissing = true;
+        } 
+        // Verifica se é um select e o valor é 'null' (opção de "Selecione...")
+        else if (elemento.tagName === 'SELECT' && valor === 'null') {
+          isMissing = true;
+        }
+        
+        if (isMissing) {
+          camposFaltantes.push(campo.nome);
+          // Adiciona borda vermelha para feedback visual
+          elemento.style.border = '2px solid red';
+        } else {
+          // Remove a borda vermelha se o campo for válido (limpando o estado de erro anterior)
+          elemento.style.border = '1px solid transparent'; 
+        }
+      });
+
+      if (camposFaltantes.length > 0) {
+        alert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
+        // Interrompe a função, impedindo o download
+        return; 
+      }
+      
+      // 2. SALVAMENTO (se a validação passar)
       const dados = [];
 
       function coletarDraft(jogador, tipo) {
@@ -1046,18 +1111,20 @@
       dados.push(`\nplacar_1= ${document.getElementById('placar1').textContent}`);
       dados.push(`jogador_1= ${document.getElementById('jogador1').value}`);
       dados.push(`pais_1= ${document.getElementById('pais1').value}`);
+      dados.push(`avatar_1= ${document.getElementById('avatar1').value}`);
       dados.push(`gods_1= ${coletarDraft(1, 'god').join(',') || 'null'}`);
       dados.push(`maps_1= ${coletarDraft(1, 'map').join(',') || 'null'}`);
 
       dados.push(`\nplacar_2= ${document.getElementById('placar2').textContent}`);
       dados.push(`jogador_2= ${document.getElementById('jogador2').value}`);
       dados.push(`pais_2= ${document.getElementById('pais2').value}`);
+      dados.push(`avatar_2= ${document.getElementById('avatar2').value}`);
       dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
       dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
       const cor1 = document.getElementById('cor1').value || 'null';
       const cor2 = document.getElementById('cor2').value || 'null';
-      dados.push(`cor1=${cor1}`);
+      dados.push(`\ncor1=${cor1}`);
       dados.push(`cor2=${cor2}`);
 
 
@@ -1114,10 +1181,14 @@
       document.getElementById("placar2").textContent = "0";
       document.getElementById("jogador1").value = "";
       document.getElementById("jogador2").value = "";
+      document.getElementById("avatar1").value = ""; // Limpa Avatar 1
+      document.getElementById("avatar2").value = ""; // Limpa Avatar 2
       document.getElementById("pais1").value = "null";
       document.getElementById("pais2").value = "null";
-      document.getElementById("bandeira1").src = "null";
-      document.getElementById("bandeira2").src = "null";
+      document.getElementById("bandeira1").src = "";
+      document.getElementById("bandeira1").alt = "";
+      document.getElementById("bandeira2").src = "";
+      document.getElementById("bandeira2").alt = "";
       document.getElementById("interface").value = "1";
       document.getElementById("letreiro").value = "1";
 
