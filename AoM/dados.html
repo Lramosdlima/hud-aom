@@ -114,21 +114,19 @@
     .versusSelect1 {
       border-radius: 5px;
       padding: 5px;
-      background-color: #0a0b33;
     }
 
     .versusSelect2 {
       border-radius: 5px;
       padding: 5px;
-      background-color: #380c0c;
     }
 
-    .jogadorv1 {
-      background-color: #0a0b33;
-    }
-
-    .jogadorv2 {
-      background-color: #380c0c;
+    .jogadorv1:hover,
+    .jogadorv2:hover {
+      /* Adiciona uma transição para suavizar o efeito de hover */
+      transition: filter 0.2s ease-in-out;
+      /* Aumenta o brilho da cor de fundo em 30% (1.3) para simular o "semi-branco" */
+      filter: brightness(1.3);
     }
 
     .versus .botoes {
@@ -144,16 +142,16 @@
       gap: 20px;
     }
 
+    /* REMOVIDO: background-color: #0a0b33; (Será definido via JS) */
     .player1 {
       width: 48%;
-      background-color: #0a0b33;
       padding: 15px;
       border-radius: 8px;
     }
 
+    /* REMOVIDO: background-color: #380c0c; (Será definido via JS) */
     .player2 {
       width: 48%;
-      background-color: #380c0c;
       padding: 15px;
       border-radius: 8px;
     }
@@ -226,7 +224,8 @@
 
       <div style="margin-bottom: 10px;">
         <label for="logo_camp">Logo do Campeonato*</label><br>
-        <input type="text" id="logo_camp" placeholder="Nome do PNG do Campeonato na pasta" style="width: 100%; padding: 5px;">
+        <input type="text" id="logo_camp" placeholder="Nome do PNG do Campeonato na pasta"
+          style="width: 100%; padding: 5px;">
       </div>
 
       <div style="margin-bottom: 10px;">
@@ -247,7 +246,7 @@
       <div style="margin-bottom: 10px; display: flex; gap: 10px;">
         <div style="flex: 1;">
           <label for="cor1">Cor Esquerda</label><br>
-          <select id="cor1" style="width: 100%; padding: 5px;">
+          <select id="cor1" style="width: 100%; padding: 5px;" onchange="trocarCorDeFundo()">
             <option value="azul">Azul</option>
             <option value="vermelho">Vermelho</option>
             <option value="amarelo">Amarelo</option>
@@ -264,7 +263,7 @@
         </div>
         <div style="flex: 1;">
           <label for="cor2">Cor Direita</label><br>
-          <select id="cor2" style="width: 100%; padding: 5px;">
+          <select id="cor2" style="width: 100%; padding: 5px;" onchange="trocarCorDeFundo()">
             <option value="vermelho">Vermelho</option>
             <option value="azul">Azul</option>
             <option value="amarelo">Amarelo</option>
@@ -750,6 +749,16 @@
         restaurarDraft(1, 'map', dados);
         restaurarDraft(2, 'god', dados);
         restaurarDraft(2, 'map', dados);
+
+        if (dados.cor1) {
+          document.getElementById('cor1').value = dados.cor1;
+        }
+        if (dados.cor2) {
+          document.getElementById('cor2').value = dados.cor2;
+        }
+
+        // NOVO: Aplica as cores de fundo
+        trocarCorDeFundo();
       }
     };
 
@@ -985,12 +994,15 @@
       dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
       dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
+      dados.push(`cor1= ${document.getElementById('cor1').value}`);
+      dados.push(`cor2= ${document.getElementById('cor2').value}`);
+
       localStorage.setItem("dadosInterface", JSON.stringify(dados));
     }
 
     // === Carregar dados do localStorage ao abrir a página ===
     window.addEventListener("DOMContentLoaded", () => {
-          // Já está sendo feito no window.onload(), mantendo a estrutura existente
+      // Já está sendo feito no window.onload(), mantendo a estrutura existente
       // Apenas adicionando as chamadas de atualização de bandeira e avatar.
 
       const dadosSalvos = localStorage.getItem("dadosInterface");
@@ -1029,7 +1041,7 @@
     });
 
 
- function salvarDados() {
+    function salvarDados() {
       // 1. VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
       const camposObrigatorios = [
         { id: 'letreiro', nome: 'Letreiro' },
@@ -1052,32 +1064,32 @@
 
         let valor = elemento.value.trim();
         let isMissing = false;
-        
+
         // Verifica se o valor é vazio
         if (valor === '') {
           isMissing = true;
-        } 
+        }
         // Verifica se é um select e o valor é 'null' (opção de "Selecione...")
         else if (elemento.tagName === 'SELECT' && valor === 'null') {
           isMissing = true;
         }
-        
+
         if (isMissing) {
           camposFaltantes.push(campo.nome);
           // Adiciona borda vermelha para feedback visual
           elemento.style.border = '2px solid red';
         } else {
           // Remove a borda vermelha se o campo for válido (limpando o estado de erro anterior)
-          elemento.style.border = '1px solid transparent'; 
+          elemento.style.border = '1px solid transparent';
         }
       });
 
       if (camposFaltantes.length > 0) {
         alert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
         // Interrompe a função, impedindo o download
-        return; 
+        return;
       }
-      
+
       // 2. SALVAMENTO (se a validação passar)
       const dados = [];
 
@@ -1122,8 +1134,8 @@
       dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
       dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
-      const cor1 = document.getElementById('cor1').value || 'null';
-      const cor2 = document.getElementById('cor2').value || 'null';
+      dados.push(`cor1= ${document.getElementById('cor1').value}`);
+      dados.push(`cor2= ${document.getElementById('cor2').value}`);
       dados.push(`\ncor1=${cor1}`);
       dados.push(`cor2=${cor2}`);
 
@@ -1191,6 +1203,9 @@
       document.getElementById("bandeira2").alt = "";
       document.getElementById("interface").value = "1";
       document.getElementById("letreiro").value = "1";
+      document.getElementById("cor1").value = "azul";
+      document.getElementById("cor2").value = "vermelho";
+      trocarCorDeFundo();
 
       // Limpa os drafts
       limparMarcacoes(1);
@@ -1406,6 +1421,60 @@
       } catch (err) {
         console.error(err);
         alert("❌ Falha ao importar o draft de mapas. Verifique o link e tente novamente.");
+      }
+    }
+
+    // NOVO: Mapa de cores escuras para o background
+    const colorMap = {
+      'azul': '#0a0b33', // Dark Blue/Indigo (Original Player 1)
+      'vermelho': '#380c0c', // Dark Red/Maroon (Original Player 2)
+      'amarelo': '#33330a', // Dark Yellow/Gold
+      'verde': '#0a330a', // Dark Green
+      'ciano': '#0a3333', // Dark Cyan/Teal
+      'rosa': '#330a33', // Dark Pink/Violet
+      'laranja': '#331a0a', // Dark Orange
+      'magenta': '#330a21', // Dark Magenta
+      'verdeagua': '#0a2133', // Dark Aqua
+      'salmao': '#331f21', // Dark Salmon
+      'roxo': '#210a33', // Dark Purple
+      'cinza': '#222222' // Dark Gray
+    };
+
+    // NOVA FUNÇÃO: Troca a cor de fundo dos elementos dos jogadores
+    function trocarCorDeFundo() {
+      const cor1 = document.getElementById('cor1').value;
+      const cor2 = document.getElementById('cor2').value;
+
+      const player1El = document.querySelector('.player1');
+      const player2El = document.querySelector('.player2');
+      const vs1El = document.querySelector('.versusSelect1');
+      const vs2El = document.querySelector('.versusSelect2');
+
+      // NOVO: Seleciona os botões de vitória
+      const btnVitoria1El = document.querySelector('.jogadorv1');
+      const btnVitoria2El = document.querySelector('.jogadorv2');
+
+      if (player1El && colorMap[cor1]) {
+        player1El.style.backgroundColor = colorMap[cor1];
+      }
+      if (player2El && colorMap[cor2]) {
+        player2El.style.backgroundColor = colorMap[cor2];
+      }
+
+      // Atualiza também as labels de God 1 e God 2
+      if (vs1El && colorMap[cor1]) {
+        vs1El.style.backgroundColor = colorMap[cor1];
+      }
+      if (vs2El && colorMap[cor2]) {
+        vs2El.style.backgroundColor = colorMap[cor2];
+      }
+
+      // NOVO: Atualiza os botões de vitória
+      if (btnVitoria1El && colorMap[cor1]) {
+        btnVitoria1El.style.backgroundColor = colorMap[cor1];
+      }
+      if (btnVitoria2El && colorMap[cor2]) {
+        btnVitoria2El.style.backgroundColor = colorMap[cor2];
       }
     }
 
