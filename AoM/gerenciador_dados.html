@@ -233,14 +233,27 @@
         <input type="text" id="fase" placeholder="Ex: Quartas de Final Winner - Md5" style="width: 100%; padding: 5px;">
       </div>
 
-      <div style="margin-top: 20px;">
-        <input id="draftLink" type="text" placeholder="Link do draft de gods" style=" width: 70%; padding: 5px;">
-        <button onclick="importarDraftAoE2CM()" style="margin-top: 5px; margin-bottom: 8px;">Importar Gods</button>
-      </div>
+      <div style="margin-bottom: 10px; display: flex;  align-items: center; gap: 10px;">
 
-      <div style="margin-bottom: 20px;">
-        <input id="draftLinkMapas" type="text" placeholder="Link do draft de mapas" style=" width: 70%; padding: 5px;">
-        <button onclick="importarDraftMapas()" style="margin-top: 5px; margin-bottom: 8px;">Importar Mapas</button>
+        <div style="display: flex; flex-direction: column; flex-grow: 2">
+
+          <div style="margin-top: 10px; ">
+            <input id="draftLink" type="text" placeholder="Link do draft de gods" style=" width: 70%; padding: 5px;">
+            <button onclick="importarDraftAoE2CM()" style="margin-top: 5px; margin-bottom: 8px;">Importar Gods</button>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <input id="draftLinkMapas" type="text" placeholder="Link do draft de mapas"
+              style=" width: 70%; padding: 5px;">
+            <button onclick="importarDraftMapas()" style="margin-top: 5px; margin-bottom: 8px;">Importar Mapas</button>
+          </div>
+        </div>
+
+        <button style="height: 50%" onclick="captainsLink()" title="Captains Site">
+          <img src="assets/captains-icon.png" alt="Captains Link">
+        </button>
+
+
       </div>
 
       <div style="margin-bottom: 10px; display: flex; gap: 10px;">
@@ -1478,6 +1491,9 @@
       }
     }
 
+    function captainsLink() {
+      window.open('https://aoe2cm.net/spectate', '_blank');
+    }
 
   </script>
 
