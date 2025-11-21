@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Interface de Jogo</title>
+  <link rel="icon" href="assets/AoMR_Omniscience_icon.png">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -976,7 +977,7 @@
         imagens.forEach(img => {
           const nome = img.dataset.nome;
           const estado = img.dataset.estado;
-          if (estado === 'pick') picks.push(`${nome}_p`);
+          if (estado === 'pick') picks.push(` ${nome}_p`);
           if (estado === 'ban') bans.push(`${nome}_b`);
         });
 
