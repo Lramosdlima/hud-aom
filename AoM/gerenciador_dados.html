@@ -933,7 +933,6 @@
     }
 
     function registrarResultado(vencedorId) {
-      
       const mapa = document.getElementById("mapaSelect").value;
       const g1 = document.getElementById("versusSelect1").value.replace("_1", "");
       const g2 = document.getElementById("versusSelect2").value.replace("_2", "");
@@ -945,69 +944,71 @@
         return;
       }
 
-      // Atualiza o placar direto no DOM
-      const placar1El = document.getElementById("placar1");
-      const placar2El = document.getElementById("placar2");
+      confirmAlert("Tem certeza que deseja registrar o resultado?", () => {
+        // Atualiza o placar direto no DOM
+        const placar1El = document.getElementById("placar1");
+        const placar2El = document.getElementById("placar2");
 
-      if (vencedorId === 1) {
-        placar1El.textContent = parseInt(placar1El.textContent) + 1;
-      } else {
-        placar2El.textContent = parseInt(placar2El.textContent) + 1;
-      }
-
-      const valorJogador1 = "A";
-      const valorJogador2 = "B";
-      const vencedorValor = vencedorId === 1 ? valorJogador1 : valorJogador2;
-      const vencedorNome = vencedorId === 1 ? j1 : j2;
-      const vencedorGod = vencedorId === 1 ? g1 : g2;
-      const perdedorGod = vencedorId === 1 ? g2 : g1;
-
-      const novaPartida = `${vencedorNome}:${vencedorGod},${perdedorGod},${mapa},${vencedorValor}`;
-      // Carrega dados existentes
-      const salvos = localStorage.getItem("dadosInterface");
-      const linhas = salvos ? JSON.parse(salvos) : [];
-      const dados = {};
-      linhas.forEach(linha => {
-        const [chave, valor] = linha.split('=');
-        if (chave && valor !== undefined) dados[chave.trim()] = valor.trim();
-      });
-
-      // Atualiza placar no objeto de dados
-      if (vencedorId === 1) {
-        placar1El.textContent = parseInt(placar1El.textContent);
-      } else {
-        placar2El.textContent = parseInt(placar2El.textContent);
-      }
-      dados["placar_1"] = placar1El.textContent;
-      dados["placar_2"] = placar2El.textContent;
-
-      // Registra a nova partida
-      for (let i = 1; i <= 9; i++) {
-        const partida = dados[`partida${i}`];
-        const textoLimpo = partida ? partida.replace(/^\d+\.\s*/, "") : "";
-        if (!textoLimpo || textoLimpo === ":,") {
-          dados[`partida${i}`] = novaPartida;
-          break;
+        if (vencedorId === 1) {
+          placar1El.textContent = parseInt(placar1El.textContent) + 1;
+        } else {
+          placar2El.textContent = parseInt(placar2El.textContent) + 1;
         }
-      }
 
-      // Atualiza localStorage e salva no txt
-      const novasLinhas = Object.entries(dados).map(([k, v]) => {
-        if (k.startsWith("partida")) {
-          const num = k.replace("partida", "");
-          const semPrefixo = v.replace(/^\d+\.\s*/, ""); // remove "1. ", "2. ", etc.
-          return `${k}= ${num}. ${semPrefixo}`;
+        const valorJogador1 = "A";
+        const valorJogador2 = "B";
+        const vencedorValor = vencedorId === 1 ? valorJogador1 : valorJogador2;
+        const vencedorNome = vencedorId === 1 ? j1 : j2;
+        const vencedorGod = vencedorId === 1 ? g1 : g2;
+        const perdedorGod = vencedorId === 1 ? g2 : g1;
+
+        const novaPartida = `${vencedorNome}:${vencedorGod},${perdedorGod},${mapa},${vencedorValor}`;
+        // Carrega dados existentes
+        const salvos = localStorage.getItem("dadosInterface");
+        const linhas = salvos ? JSON.parse(salvos) : [];
+        const dados = {};
+        linhas.forEach(linha => {
+          const [chave, valor] = linha.split('=');
+          if (chave && valor !== undefined) dados[chave.trim()] = valor.trim();
+        });
+
+        // Atualiza placar no objeto de dados
+        if (vencedorId === 1) {
+          placar1El.textContent = parseInt(placar1El.textContent);
+        } else {
+          placar2El.textContent = parseInt(placar2El.textContent);
         }
-        return `${k}= ${v}`;
-      });
+        dados["placar_1"] = placar1El.textContent;
+        dados["placar_2"] = placar2El.textContent;
 
-      localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
+        // Registra a nova partida
+        for (let i = 1; i <= 9; i++) {
+          const partida = dados[`partida${i}`];
+          const textoLimpo = partida ? partida.replace(/^\d+\.\s*/, "") : "";
+          if (!textoLimpo || textoLimpo === ":,") {
+            dados[`partida${i}`] = novaPartida;
+            break;
+          }
+        }
 
-      const blob = new Blob([novasLinhas.join("\n")], { type: "text/plain" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "dados.txt";
-      link.click();
+        // Atualiza localStorage e salva no txt
+        const novasLinhas = Object.entries(dados).map(([k, v]) => {
+          if (k.startsWith("partida")) {
+            const num = k.replace("partida", "");
+            const semPrefixo = v.replace(/^\d+\.\s*/, ""); // remove "1. ", "2. ", etc.
+            return `${k}= ${num}. ${semPrefixo}`;
+          }
+          return `${k}= ${v}`;
+        });
+
+        localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
+
+        const blob = new Blob([novasLinhas.join("\n")], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "dados.txt";
+        link.click();
+      })
     }
 
     function limparMarcacoes(jogador) {
