@@ -1213,10 +1213,8 @@
         dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
         dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
-        dados.push(`cor1= ${document.getElementById('cor1').value}`);
+        dados.push(`\ncor1= ${document.getElementById('cor1').value}`);
         dados.push(`cor2= ${document.getElementById('cor2').value}`);
-        dados.push(`\ncor1=${cor1}`);
-        dados.push(`cor2=${cor2}`);
 
 
         // Recupera partidas anteriores do localStorage
