@@ -782,6 +782,58 @@
       }
     };
 
+    // Função customizada para substitutir o alert()
+    const customAlert = (message) => {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(0,0,0,0.7); display: flex; justify-content: center;
+          align-items: center; z-index: 1000;
+        `;
+      const content = document.createElement('div');
+      content.style.cssText = `
+          background: #383838; padding: 20px; border-radius: 8px;
+          color: white; text-align: center; max-width: 300px;
+        `;
+      content.innerHTML = `<p>${message}</p>
+          <button id="confirm-ok" style="background-color: #007bff;">OK</button>`;
+
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+
+      document.getElementById('confirm-ok').onclick = () => {
+        document.body.removeChild(modal);
+      };
+    };
+
+    const confirmAlert = (message, onConfirm) => {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(0,0,0,0.7); display: flex; justify-content: center;
+          align-items: center; z-index: 1000;
+        `;
+      const content = document.createElement('div');
+      content.style.cssText = `
+          background: #383838; padding: 20px; border-radius: 8px;
+           text-align: center; max-width: 300px;
+        `;
+      content.innerHTML = `<p>${message}</p>
+          <button id="confirm-yes" style="margin-right: 10px; background-color: #4CAF50;">Sim</button>
+          <button id="confirm-no" style="background-color: #dc3545;">Não</button>`;
+
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+
+      document.getElementById('confirm-yes').onclick = () => {
+        onConfirm();
+        document.body.removeChild(modal);
+      };
+      document.getElementById('confirm-no').onclick = () => {
+        document.body.removeChild(modal);
+      };
+    };
+
     function atualizarImagem(selectId, imgId) {
       const cor = document.getElementById(selectId).value;
       const img = document.getElementById(imgId);
@@ -958,15 +1010,17 @@
     }
 
     function limparMarcacoes(jogador) {
-      ['god', 'map'].forEach(tipo => {
-        const pasta = tipo === 'god' ? 'gods' : 'mapas';
-        const imgs = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
-        imgs.forEach(img => {
-          const nome = img.dataset.nome;
-          img.src = `${pasta}/${nome}.png`;
-          img.dataset.estado = '';
+      confirmAlert("Tem certeza que deseja limpar o draft?\nEssa ação não pode ser desfeita.", () => {
+        ['god', 'map'].forEach(tipo => {
+          const pasta = tipo === 'god' ? 'gods' : 'mapas';
+          const imgs = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
+          imgs.forEach(img => {
+            const nome = img.dataset.nome;
+            img.src = `${pasta}/${nome}.png`;
+            img.dataset.estado = '';
+          });
         });
-      });
+      })
     }
 
 
@@ -1062,176 +1116,182 @@
 
 
     function salvarDados() {
-      // 1. VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
-      const camposObrigatorios = [
-        { id: 'letreiro', nome: 'Letreiro' },
-        { id: 'logo_camp', nome: 'Campeonato' },
-        { id: 'fase', nome: 'Fase' },
-        { id: 'jogador1', nome: 'Jogador 1' },
-        { id: 'cor1', nome: 'Cor Esquerda' },
-        { id: 'jogador2', nome: 'Jogador 2' },
-        { id: 'cor2', nome: 'Cor Direita' },
-        { id: 'mapaSelect', nome: 'Mapa' },
-        { id: 'versusSelect1', nome: 'God 1 (Versus)' },
-        { id: 'versusSelect2', nome: 'God 2 (Versus)' }
-      ];
+      confirmAlert("Deseja salvar os dados? <br><br> Essa ação vai gerar um arquivo  <span style='color: gray ;'>dados.txt</span> que deve ser colado na pasta ao lado do <span style='color: gray ;'> gerenciador_dados.html </span>", () => {
 
-      const camposFaltantes = [];
 
-      camposObrigatorios.forEach(campo => {
-        const elemento = document.getElementById(campo.id);
-        if (!elemento) return;
+        // 1. VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
+        const camposObrigatorios = [
+          { id: 'letreiro', nome: 'Letreiro' },
+          { id: 'logo_camp', nome: 'Campeonato' },
+          { id: 'fase', nome: 'Fase' },
+          { id: 'jogador1', nome: 'Jogador 1' },
+          { id: 'cor1', nome: 'Cor Esquerda' },
+          { id: 'jogador2', nome: 'Jogador 2' },
+          { id: 'cor2', nome: 'Cor Direita' },
+          { id: 'mapaSelect', nome: 'Mapa' },
+          { id: 'versusSelect1', nome: 'God 1 (Versus)' },
+          { id: 'versusSelect2', nome: 'God 2 (Versus)' }
+        ];
 
-        let valor = elemento.value.trim();
-        let isMissing = false;
+        const camposFaltantes = [];
 
-        // Verifica se o valor é vazio
-        if (valor === '') {
-          isMissing = true;
-        }
-        // Verifica se é um select e o valor é 'null' (opção de "Selecione...")
-        else if (elemento.tagName === 'SELECT' && valor === 'null') {
-          isMissing = true;
-        }
+        camposObrigatorios.forEach(campo => {
+          const elemento = document.getElementById(campo.id);
+          if (!elemento) return;
 
-        if (isMissing) {
-          camposFaltantes.push(campo.nome);
-          // Adiciona borda vermelha para feedback visual
-          elemento.style.border = '2px solid red';
-        } else {
-          // Remove a borda vermelha se o campo for válido (limpando o estado de erro anterior)
-          elemento.style.border = '1px solid transparent';
-        }
-      });
+          let valor = elemento.value.trim();
+          let isMissing = false;
 
-      if (camposFaltantes.length > 0) {
-        alert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
-        // Interrompe a função, impedindo o download
-        return;
-      }
+          // Verifica se o valor é vazio
+          if (valor === '') {
+            isMissing = true;
+          }
+          // Verifica se é um select e o valor é 'null' (opção de "Selecione...")
+          else if (elemento.tagName === 'SELECT' && valor === 'null') {
+            isMissing = true;
+          }
 
-      // 2. SALVAMENTO (se a validação passar)
-      const dados = [];
-
-      function coletarDraft(jogador, tipo) {
-        const pasta = tipo === 'god' ? 'gods' : 'mapas';
-        const imagens = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
-        const picks = [];
-        const bans = [];
-
-        imagens.forEach(img => {
-          const nome = img.dataset.nome;
-          const estado = img.dataset.estado;
-          if (estado === 'pick') picks.push(`${nome}_p`);
-          if (estado === 'ban') bans.push(`${nome}_b`);
+          if (isMissing) {
+            camposFaltantes.push(campo.nome);
+            // Adiciona borda vermelha para feedback visual
+            elemento.style.border = '2px solid red';
+          } else {
+            // Remove a borda vermelha se o campo for válido (limpando o estado de erro anterior)
+            elemento.style.border = '1px solid transparent';
+          }
         });
 
-        return [...picks, ...bans]; // picks primeiro, depois bans
-      }
+        if (camposFaltantes.length > 0) {
+          alert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
+          // Interrompe a função, impedindo o download
+          return;
+        }
+
+        // 2. SALVAMENTO (se a validação passar)
+        const dados = [];
+
+        function coletarDraft(jogador, tipo) {
+          const pasta = tipo === 'god' ? 'gods' : 'mapas';
+          const imagens = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
+          const picks = [];
+          const bans = [];
+
+          imagens.forEach(img => {
+            const nome = img.dataset.nome;
+            const estado = img.dataset.estado;
+            if (estado === 'pick') picks.push(`${nome}_p`);
+            if (estado === 'ban') bans.push(`${nome}_b`);
+          });
+
+          return [...picks, ...bans]; // picks primeiro, depois bans
+        }
 
 
-      dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
+        dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
 
-      dados.push(`\nlogo_camp= ${document.getElementById('logo_camp').value}`);
-      dados.push(`fase= ${document.getElementById('fase').value}`);
+        dados.push(`\nlogo_camp= ${document.getElementById('logo_camp').value}`);
+        dados.push(`fase= ${document.getElementById('fase').value}`);
 
-      dados.push(`\nmapa= ${document.getElementById('mapaSelect').value}`);
-      const g1 = document.getElementById('versusSelect1').value || "null_1";
-      const g2 = document.getElementById('versusSelect2').value || "null_2";
-      dados.push(`gods= ${g1},${g2}`);
+        dados.push(`\nmapa= ${document.getElementById('mapaSelect').value}`);
+        const g1 = document.getElementById('versusSelect1').value || "null_1";
+        const g2 = document.getElementById('versusSelect2').value || "null_2";
+        dados.push(`gods= ${g1},${g2}`);
 
-      dados.push(`\nplacar_1= ${document.getElementById('placar1').textContent}`);
-      dados.push(`jogador_1= ${document.getElementById('jogador1').value}`);
-      dados.push(`pais_1= ${document.getElementById('pais1').value}`);
-      dados.push(`avatar_1= ${document.getElementById('avatar1').value}`);
-      dados.push(`gods_1= ${coletarDraft(1, 'god').join(',') || 'null'}`);
-      dados.push(`maps_1= ${coletarDraft(1, 'map').join(',') || 'null'}`);
+        dados.push(`\nplacar_1= ${document.getElementById('placar1').textContent}`);
+        dados.push(`jogador_1= ${document.getElementById('jogador1').value}`);
+        dados.push(`pais_1= ${document.getElementById('pais1').value}`);
+        dados.push(`avatar_1= ${document.getElementById('avatar1').value}`);
+        dados.push(`gods_1= ${coletarDraft(1, 'god').join(',') || 'null'}`);
+        dados.push(`maps_1= ${coletarDraft(1, 'map').join(',') || 'null'}`);
 
-      dados.push(`\nplacar_2= ${document.getElementById('placar2').textContent}`);
-      dados.push(`jogador_2= ${document.getElementById('jogador2').value}`);
-      dados.push(`pais_2= ${document.getElementById('pais2').value}`);
-      dados.push(`avatar_2= ${document.getElementById('avatar2').value}`);
-      dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
-      dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
+        dados.push(`\nplacar_2= ${document.getElementById('placar2').textContent}`);
+        dados.push(`jogador_2= ${document.getElementById('jogador2').value}`);
+        dados.push(`pais_2= ${document.getElementById('pais2').value}`);
+        dados.push(`avatar_2= ${document.getElementById('avatar2').value}`);
+        dados.push(`gods_2= ${coletarDraft(2, 'god').join(',') || 'null'}`);
+        dados.push(`maps_2= ${coletarDraft(2, 'map').join(',') || 'null'}`);
 
-      dados.push(`cor1= ${document.getElementById('cor1').value}`);
-      dados.push(`cor2= ${document.getElementById('cor2').value}`);
-      dados.push(`\ncor1=${cor1}`);
-      dados.push(`cor2=${cor2}`);
+        dados.push(`cor1= ${document.getElementById('cor1').value}`);
+        dados.push(`cor2= ${document.getElementById('cor2').value}`);
+        dados.push(`\ncor1=${cor1}`);
+        dados.push(`cor2=${cor2}`);
 
 
-      // Recupera partidas anteriores do localStorage
-      const salvosAntigos = localStorage.getItem("dadosInterface");
-      const linhasAntigas = salvosAntigos ? JSON.parse(salvosAntigos) : [];
-      const partidasExistentes = linhasAntigas.filter(l => l.trim().startsWith("partida"));
+        // Recupera partidas anteriores do localStorage
+        const salvosAntigos = localStorage.getItem("dadosInterface");
+        const linhasAntigas = salvosAntigos ? JSON.parse(salvosAntigos) : [];
+        const partidasExistentes = linhasAntigas.filter(l => l.trim().startsWith("partida"));
 
-      // Adiciona as partidas existentes ao novo conjunto de dados
-      dados.push(...partidasExistentes);
+        // Adiciona as partidas existentes ao novo conjunto de dados
+        dados.push(...partidasExistentes);
 
-      // Atualiza localStorage e arquivo
-      localStorage.setItem("dadosInterface", JSON.stringify(dados));
+        // Atualiza localStorage e arquivo
+        localStorage.setItem("dadosInterface", JSON.stringify(dados));
 
-      const blob = new Blob([dados.join("\n")], { type: "text/plain" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "dados.txt";
-      link.click();
-
+        const blob = new Blob([dados.join("\n")], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "dados.txt";
+        link.click();
+      })
     }
 
     function limparDados() {
-      if (!confirm("Quer mesmo limpar todos os dados?")) return;
+      confirmAlert("Tem certeza que deseja resetar TODOS os dados e placar?", () => {
+        const salvos = localStorage.getItem("dadosInterface");
+        let linhas = salvos ? JSON.parse(salvos) : [];
 
-      const salvos = localStorage.getItem("dadosInterface");
-      let linhas = salvos ? JSON.parse(salvos) : [];
-
-      // Preserva apenas logo_camp e fase
-      const preservados = {};
-      linhas.forEach(linha => {
-        const [chave, valor] = linha.split('=');
-        if (chave && valor !== undefined) {
-          if (chave.trim() === 'logo_camp' || chave.trim() === 'fase') {
-            preservados[chave.trim()] = valor.trim();
+        // Preserva apenas logo_camp e fase
+        const preservados = {};
+        linhas.forEach(linha => {
+          const [chave, valor] = linha.split('=');
+          if (chave && valor !== undefined) {
+            if (chave.trim() === 'logo_camp' || chave.trim() === 'fase') {
+              preservados[chave.trim()] = valor.trim();
+            }
           }
-        }
+        });
+
+        // Limpa localStorage
+        localStorage.removeItem("dadosInterface");
+
+        // Grava os campos preservados de volta
+        const novasLinhas = [];
+        if (preservados.logo_camp) novasLinhas.push(`logo_camp= ${preservados.logo_camp}`);
+        if (preservados.fase) novasLinhas.push(`fase= ${preservados.fase}`);
+        localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
+
+        // Limpa os campos visualmente (exceto logo_camp e fase)
+        const interface = document.getElementById("interface");
+        if (interface) interface.value = "1";
+
+        document.getElementById("mapaSelect").value = "null";
+        document.getElementById("versusSelect1").value = "null";
+        document.getElementById("versusSelect2").value = "null";
+        document.getElementById("placar1").textContent = "0";
+        document.getElementById("placar2").textContent = "0";
+        document.getElementById("jogador1").value = "";
+        document.getElementById("jogador2").value = "";
+        document.getElementById("avatar1").value = ""; // Limpa Avatar 1
+        document.getElementById("avatar2").value = ""; // Limpa Avatar 2
+        document.getElementById("pais1").value = "null";
+        document.getElementById("pais2").value = "null";
+        document.getElementById("bandeira1").src = "";
+        document.getElementById("bandeira1").alt = "";
+        document.getElementById("bandeira2").src = "";
+        document.getElementById("bandeira2").alt = "";
+        document.getElementById("letreiro").value = "1";
+        document.getElementById("cor1").value = "azul";
+        document.getElementById("cor2").value = "vermelho";
+        trocarCorDeFundo();
+
+        // Limpa os drafts
+        limparMarcacoes(1);
+        limparMarcacoes(2);
+
+        location.reload();
+
       });
-
-      // Limpa localStorage
-      localStorage.removeItem("dadosInterface");
-
-      // Grava os campos preservados de volta
-      const novasLinhas = [];
-      if (preservados.logo_camp) novasLinhas.push(`logo_camp= ${preservados.logo_camp}`);
-      if (preservados.fase) novasLinhas.push(`fase= ${preservados.fase}`);
-      localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
-
-      // Limpa os campos visualmente (exceto logo_camp e fase)
-      document.getElementById("mapaSelect").value = "null";
-      document.getElementById("versusSelect1").value = "null";
-      document.getElementById("versusSelect2").value = "null";
-      document.getElementById("placar1").textContent = "0";
-      document.getElementById("placar2").textContent = "0";
-      document.getElementById("jogador1").value = "";
-      document.getElementById("jogador2").value = "";
-      document.getElementById("avatar1").value = ""; // Limpa Avatar 1
-      document.getElementById("avatar2").value = ""; // Limpa Avatar 2
-      document.getElementById("pais1").value = "null";
-      document.getElementById("pais2").value = "null";
-      document.getElementById("bandeira1").src = "";
-      document.getElementById("bandeira1").alt = "";
-      document.getElementById("bandeira2").src = "";
-      document.getElementById("bandeira2").alt = "";
-      document.getElementById("interface").value = "1";
-      document.getElementById("letreiro").value = "1";
-      document.getElementById("cor1").value = "azul";
-      document.getElementById("cor2").value = "vermelho";
-      trocarCorDeFundo();
-
-      // Limpa os drafts
-      limparMarcacoes(1);
-      limparMarcacoes(2);
-
-      location.reload();
     }
 
     function restaurarDraft(jogador, tipo, dados) {
@@ -1359,13 +1419,13 @@
     async function importarDraftMapas() {
       const link = document.getElementById("draftLinkMapas").value.trim();
       if (!link) {
-        alert("Cole o link do draft de MAPAS do aoe2cm.net antes de importar.");
+        customAlert("Cole o link do draft de MAPAS do aoe2cm.net antes de importar.");
         return;
       }
 
       const match = link.match(/draft\/([A-Za-z0-9_-]+)/);
       if (!match) {
-        alert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx");
+        customAlert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx");
         return;
       }
 
@@ -1373,74 +1433,165 @@
       const apiUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://aoe2cm.net/api/draft/${draftId}`)}`;
 
       try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("Erro ao buscar o draft");
-        const draft = await response.json();
+        // LOADING
+        const loadingModal = document.createElement('div');
+        loadingModal.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); display: flex; justify-content: center;
+      align-items: center; z-index: 1000; color: white; font-size: 1.2em;
+    `;
+        loadingModal.innerHTML = '<p>Carregando draft...</p>';
+        document.body.appendChild(loadingModal);
 
-        const jogador1 = draft.nameHost || "Jogador 1";
-        const jogador2 = draft.nameGuest || "Jogador 2";
-
-        // === Normaliza nomes de mapas ===
-        const normalizarNome = (id) => {
-          if (!id) return "";
-          return id
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove acentos
-            .replace(/\s+/g, "") // remove espaços
-            .toLowerCase(); // minúsculas
-        };
-
-        const events = draft.events || [];
-        const picks1 = [], picks2 = [];
-        const bans1 = [], bans2 = [];
-
-        events.forEach(ev => {
-          const player = ev.player;
-          const type = (ev.actionType || "").toLowerCase();
-          const mapa = normalizarNome(ev.chosenOptionId);
-
-          if (!mapa) return;
-
-          if (player === "HOST") {
-            if (type === "pick") picks1.push(`${mapa}_p`);
-            if (type === "ban") bans1.push(`${mapa}_b`);
-          } else if (player === "GUEST") {
-            if (type === "pick") picks2.push(`${mapa}_p`);
-            if (type === "ban") bans2.push(`${mapa}_b`);
+        // Retry com backoff
+        let response, draft;
+        const maxRetries = 3;
+        for (let i = 0; i < maxRetries; i++) {
+          try {
+            response = await fetch(apiUrl);
+            if (!response.ok) throw new Error(`Status: ${response.status}`);
+            draft = await response.json();
+            break;
+          } catch (e) {
+            if (i === maxRetries - 1) throw e;
+            await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
           }
-        });
-
-        console.log("Mapas HOST picks:", picks1);
-        console.log("Mapas GUEST picks:", picks2);
-        console.log("Mapas HOST bans:", bans1);
-        console.log("Mapas GUEST bans:", bans2);
-
-        function aplicarDraftMapas(jogador, picks, bans) {
-          const container = document.querySelector(`.map-grid[data-jogador="${jogador}"]`);
-          if (!container) return;
-          const imgs = container.querySelectorAll('.item-img');
-
-          imgs.forEach(img => {
-            const nome = img.dataset.nome.toLowerCase().replace(/\s+/g, "");
-            if (picks.includes(`${nome}_p`)) {
-              img.src = `mapas/${nome}_p.png`;
-              img.dataset.estado = 'pick';
-            } else if (bans.includes(`${nome}_b`)) {
-              img.src = `mapas/${nome}_b.png`;
-              img.dataset.estado = 'ban';
-            } else {
-              img.src = `mapas/${nome}.png`;
-              img.dataset.estado = '';
-            }
-          });
         }
 
-        aplicarDraftMapas(1, picks1, bans1);
-        aplicarDraftMapas(2, picks2, bans2);
+        document.body.removeChild(loadingModal);
 
-        alert(`✅ Draft de mapas importado com sucesso!\n${jogador1} vs ${jogador2}`);
+        // ---- Nomes da API
+        const nomeHostAPI = draft.nameHost || "Jogador HOST (API)";
+        const nomeGuestAPI = draft.nameGuest || "Jogador GUEST (API)";
+
+        // Inputs atuais
+        const inputJogador1 = document.getElementById("jogador1");
+        const inputJogador2 = document.getElementById("jogador2");
+
+        const v1 = inputJogador1.value.trim();
+        const v2 = inputJogador2.value.trim();
+
+        // Normalizador
+        const normalizarNome = (str) =>
+          str ? String(str)
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "")
+            .toLowerCase() : "";
+
+        const normV1 = normalizarNome(v1);
+        const normV2 = normalizarNome(v2);
+        const normHostAPI = normalizarNome(nomeHostAPI);
+        const normGuestAPI = normalizarNome(nomeGuestAPI);
+
+        // -------------------------------
+        // 1) SE OS DOIS INPUTS ESTÃO VAZIOS → preencher automaticamente
+        // -------------------------------
+        if (!v1 && !v2) {
+          inputJogador1.value = nomeHostAPI;
+          inputJogador2.value = nomeGuestAPI;
+          aplicarImportacaoCompleta();
+          return;
+        }
+
+        // -------------------------------
+        // 2) VERIFICAÇÃO DE DIFERENÇA OU DE INVERSÃO
+        // -------------------------------
+        let nomesSaoIguais =
+          normV1 === normHostAPI && normV2 === normGuestAPI;
+
+        let nomesEstaoInvertidos =
+          normV1 === normGuestAPI && normV2 === normHostAPI;
+
+        let nomesCompletamenteDiferentes =
+          !nomesSaoIguais && !nomesEstaoInvertidos;
+
+        // Se os nomes são IGUAIS → aplicar mapas direto
+        if (nomesSaoIguais) {
+          aplicarImportacaoCompleta();
+          return;
+        }
+
+        // Se nomes são invertidos OU diferentes → perguntar ao usuário
+        if (nomesEstaoInvertidos || nomesCompletamenteDiferentes) {
+          confirmAlert(
+            "Os nomes estão diferentes da ordem do draft.\nDeseja substituir os nomes e aplicar o draft?",
+            () => {
+              // Usuário confirmou → sobrescrever os nomes conforme a API
+              inputJogador1.value = nomeHostAPI;
+              inputJogador2.value = nomeGuestAPI;
+              aplicarImportacaoCompleta();
+            }
+          );
+
+          return; // Não continua até o usuário responder
+        }
+
+        // ---------------------------------------------------------
+        // Função que realmente processa picks/bans e aplica no DOM
+        // ---------------------------------------------------------
+        function aplicarImportacaoCompleta() {
+          // Mapeia HOST/GUEST para jogadores
+          let hostPlayer = 1, guestPlayer = 2;
+
+          const n1 = normalizarNome(inputJogador1.value);
+          const n2 = normalizarNome(inputJogador2.value);
+
+          if (n1 === normHostAPI) { hostPlayer = 1; guestPlayer = 2; }
+          else if (n2 === normHostAPI) { hostPlayer = 2; guestPlayer = 1; }
+          else if (n1 === normGuestAPI) { guestPlayer = 1; hostPlayer = 2; }
+          else if (n2 === normGuestAPI) { guestPlayer = 2; hostPlayer = 1; }
+
+          const events = draft.events || [];
+          const picksPorJogador = { 1: [], 2: [] };
+          const bansPorJogador = { 1: [], 2: [] };
+
+          events.forEach(ev => {
+            const p = ev.player;
+            const t = (ev.actionType || "").toLowerCase();
+            const chosen = ev.chosenOptionId;
+            if (!chosen || p === "NONE") return;
+
+            const mapa = normalizarNome(chosen);
+            let target = p === "HOST" ? hostPlayer : guestPlayer;
+
+            if (t === "pick") picksPorJogador[target].push(`${mapa}_p`);
+            if (t === "ban") bansPorJogador[target].push(`${mapa}_b`);
+          });
+
+          function aplicarMapas(jogador, picks, bans) {
+            const container = document.querySelector(`.map-grid[data-jogador="${jogador}"]`);
+            if (!container) return;
+            const imgs = container.querySelectorAll('.item-img');
+
+            imgs.forEach(img => {
+              const nomeImg = normalizarNome(img.dataset.nome || "");
+              img.dataset.estado = '';
+              img.src = `mapas/${nomeImg}.png`;
+
+              if (picks.includes(`${nomeImg}_p`)) {
+                img.src = `mapas/${nomeImg}_p.png`;
+                img.dataset.estado = 'pick';
+              } else if (bans.includes(`${nomeImg}_b`)) {
+                img.src = `mapas/${nomeImg}_b.png`;
+                img.dataset.estado = 'ban';
+              }
+            });
+          }
+
+          aplicarMapas(1, picksPorJogador[1], bansPorJogador[1]);
+          aplicarMapas(2, picksPorJogador[2], bansPorJogador[2]);
+
+          salvarDados();
+          atualizarNomesDosBotoes();
+          atualizarLetreiroComNomes();
+
+          customAlert(`✅ Draft de mapas importado com sucesso!\n${nomeHostAPI} (HOST) vs ${nomeGuestAPI} (GUEST)`);
+        }
+
       } catch (err) {
-        console.error(err);
-        alert("❌ Falha ao importar o draft de mapas. Verifique o link e tente novamente.");
+        console.error("Erro na importação do draft:", err);
+        try { document.body.removeChild(loadingModal); } catch { }
+        customAlert("❌ Falha ao importar o draft de mapas. Verifique o link e tente novamente.");
       }
     }
 
