@@ -442,6 +442,9 @@
       <h3 class="section-title">Jogador 1</h3>
       <br>
       <div class="nome-pais">
+        <button style="height: 50%" onclick="aomStatsLinkByPlayer('jogador1')" title="AoMStats Site">
+          <img src="assets/aomstats-icon.png" alt="AoMStats Link">
+        </button>
         <input type="text" id="jogador1" placeholder="Nome Jogador 1"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
         <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1">
@@ -567,6 +570,9 @@
       <h3 class="section-title">Jogador 2</h3>
       <br>
       <div class="nome-pais">
+        <button style="height: 50%" onclick="aomStatsLinkByPlayer('jogador2')" title="AoMStats Site">
+          <img src="assets/aomstats-icon.png" alt="AoMStats Link">
+        </button>
         <input type="text" id="jogador2" placeholder="Nome Jogador 2"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
         <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2">
@@ -1494,6 +1500,19 @@
 
     function captainsLink() {
       window.open('https://aoe2cm.net/spectate', '_blank');
+    }
+
+    function aomStatsLinkByPlayer(playerId) {
+      const player = document.getElementById(playerId);
+      const playerName = player.value;
+
+      if (!playerName) {
+        player.style.border = '2px solid red';
+        alert("❌ Para pesquisar no AoM Stats precisa do nome do jogador.");
+        return;
+
+      };
+      window.open(`https://aomstats.io/profiles?s=${playerName}`, '_blank');
     }
 
   </script>
