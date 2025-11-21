@@ -782,7 +782,7 @@
       }
     };
 
-    // Função customizada para substitutir o confirmalert()
+    // Função customizada para substitutir o confirmAlert()
     const customAlert = (message) => {
       const modal = document.createElement('div');
       modal.style.cssText = `
@@ -940,7 +940,7 @@
       const j2 = document.getElementById("jogador2").value || "Jogador 2";
 
       if (mapa === "null" || g1 === "null" || g2 === "null") {
-        confirmalert("Preencha todos os campos corretamente para registrar o resultado.");
+        confirmAlert("Preencha todos os campos corretamente para registrar o resultado.");
         return;
       }
 
@@ -1162,7 +1162,7 @@
         });
 
         if (camposFaltantes.length > 0) {
-          confirmalert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
+          confirmAlert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
           // Interrompe a função, impedindo o download
           return;
         }
@@ -1743,7 +1743,7 @@
 
       if (!playerName) {
         player.style.border = '2px solid red';
-        confirmalert("❌ Para pesquisar no AoM Stats precisa do nome do jogador.");
+        confirmAlert("❌ Para pesquisar no AoM Stats precisa do nome do jogador.");
         return;
 
       };
