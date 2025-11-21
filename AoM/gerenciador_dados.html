@@ -832,7 +832,9 @@
       };
     };
 
-    const confirmAlert = (message, onConfirm) => {
+    const confirmAlert = (title, message, onConfirm) => {
+      const titleAlert = title;
+      let titleHtml = titleAlert ? '<div style="background-color: #2E2E2E; color: white; padding: 10px; border-radius: 5px;"> ' + titleAlert + '</div>' : '';
       const modal = document.createElement('div');
       modal.style.cssText = `
           position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -844,7 +846,7 @@
           background: #383838; padding: 20px; border-radius: 8px;
            text-align: center; max-width: 300px;
         `;
-      content.innerHTML = `<p>${message}</p>
+      content.innerHTML = `${titleHtml}<p>${message}</p>
           <button id="confirm-yes" style="margin-right: 10px; background-color: #4CAF50;">Sim</button>
           <button id="confirm-no" style="background-color: #dc3545;">Não</button>`;
 
@@ -970,7 +972,7 @@
         return;
       }
 
-      confirmAlert("Tem certeza que deseja registrar o resultado?", () => {
+      confirmAlert("Marcar Vencedor", "Tem certeza que deseja registrar o resultado?", () => {
         // Atualiza o placar direto no DOM
         const placar1El = document.getElementById("placar1");
         const placar2El = document.getElementById("placar2");
@@ -1038,7 +1040,7 @@
     }
 
     function limparMarcacoes(jogador) {
-      confirmAlert("Tem certeza que deseja limpar o draft?\nEssa ação não pode ser desfeita.", () => {
+      confirmAlert("Limpar Draft", "Tem certeza que deseja limpar o draft?\nEssa ação não pode ser desfeita.", () => {
         ['god', 'map'].forEach(tipo => {
           const pasta = tipo === 'god' ? 'gods' : 'mapas';
           const imgs = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
@@ -1144,7 +1146,7 @@
 
 
     function salvarDados() {
-      confirmAlert("Deseja salvar os dados? <br><br> Essa ação vai gerar um arquivo  <span style='color: gray ;'>dados.txt</span> que deve ser colado na pasta ao lado do <span style='color: gray ;'> gerenciador_dados.html </span>", () => {
+      confirmAlert("Deseja salvar os dados?", "Essa ação vai gerar um arquivo  <span style='color: gray ;'>dados.txt</span> que deve ser colado na pasta ao lado do <span style='color: gray ;'> gerenciador_dados.html </span>", () => {
 
 
         // 1. VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
@@ -1263,7 +1265,7 @@
     }
 
     function limparDados() {
-      confirmAlert("Tem certeza que deseja resetar TODOS os dados e placar?", () => {
+      confirmAlert("Limpar Dados", "Tem certeza que deseja resetar TODOS os dados e placar?", () => {
         const salvos = localStorage.getItem("dadosInterface");
         let linhas = salvos ? JSON.parse(salvos) : [];
 
@@ -1445,7 +1447,7 @@
 
         // Se invertidos ou diferentes → pedir confirmação
         if (nomesEstaoInvertidos || nomesCompletamenteDiferentes) {
-          confirmAlert(
+          confirmAlert("Alerta!", 
             "Os nomes estão diferentes da ordem do draft.\nDeseja substituir os nomes e aplicar o draft?",
             () => {
               inputJogador1.value = nomeHostAPI;
@@ -1522,7 +1524,7 @@
       } catch (err) {
         console.error("Erro ao importar GODS:", err);
         try { document.body.removeChild(loadingModal); } catch { }
-        customAlert("Falha ao importar o draft. Verifique o link e tente novamente.", 'Error' );
+        customAlert("Falha ao importar o draft. Verifique o link e tente novamente.", 'Error');
       }
     }
 
@@ -1624,7 +1626,7 @@
 
         // Se nomes são invertidos OU diferentes → perguntar ao usuário
         if (nomesEstaoInvertidos || nomesCompletamenteDiferentes) {
-          confirmAlert(
+          confirmAlert("Alerta!", 
             "Os nomes estão diferentes da ordem do draft.\nDeseja substituir os nomes e aplicar o draft?",
             () => {
               // Usuário confirmou → sobrescrever os nomes conforme a API
