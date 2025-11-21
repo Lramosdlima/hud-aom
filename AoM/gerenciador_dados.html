@@ -802,7 +802,14 @@
     };
 
     // Função customizada para substitutir o customAlert()
-    const customAlert = (message) => {
+    const customAlert = (message, type) => {
+      const typeAlert = type || 'Aviso';
+      let typeHtml = '<div style="background-color: #2E2E2E; color: white; padding: 10px; border-radius: 5px;"> ' + typeAlert + '</div>';
+
+      if (typeAlert === 'Error') {
+        typeHtml = '<div style="background-color: #2E2E2E; color: #FF6B6B; padding: 10px; border-radius: 5px;"> ❌ ' + typeAlert + ' ❌</div>';
+      }
+
       const modal = document.createElement('div');
       modal.style.cssText = `
           position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -814,7 +821,7 @@
           background: #383838; padding: 20px; border-radius: 8px;
           color: white; text-align: center; max-width: 300px;
         `;
-      content.innerHTML = `<p>${message}</p>
+      content.innerHTML = `${typeHtml}<p>${message}</p>
           <button id="confirm-ok" style="background-color: #007bff;">OK</button>`;
 
       modal.appendChild(content);
@@ -959,7 +966,7 @@
       const j2 = document.getElementById("jogador2").value || "Jogador 2";
 
       if (mapa === "null" || g1 === "null" || g2 === "null") {
-        customAlert("Preencha todos os campos corretamente para registrar o resultado.");
+        customAlert("Preencha todos os campos corretamente para registrar o resultado.", "Error");
         return;
       }
 
@@ -1183,7 +1190,7 @@
         });
 
         if (camposFaltantes.length > 0) {
-          customAlert(`❌ Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`);
+          customAlert(`Erro ao Salvar:\n\nPor favor, preencha ou selecione os seguintes campos obrigatórios:\n\n- ${camposFaltantes.join("\n- ")}`, 'Error');
           // Interrompe a função, impedindo o download
           return;
         }
@@ -1341,13 +1348,13 @@
     async function importarDraftAoE2CM() {
       const link = document.getElementById("draftLink").value.trim();
       if (!link) {
-        customAlert("Cole o link do draft do aoe2cm.net antes de importar.");
+        customAlert("Cole o link do draft do aoe2cm.net antes de importar.", "Error");
         return;
       }
 
       const match = link.match(/draft\/([A-Za-z0-9_-]+)/);
       if (!match) {
-        customAlert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx");
+        customAlert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx", "Error");
         return;
       }
 
@@ -1515,7 +1522,7 @@
       } catch (err) {
         console.error("Erro ao importar GODS:", err);
         try { document.body.removeChild(loadingModal); } catch { }
-        customAlert("❌ Falha ao importar o draft. Verifique o link e tente novamente.");
+        customAlert("Falha ao importar o draft. Verifique o link e tente novamente.", 'Error' );
       }
     }
 
@@ -1523,13 +1530,13 @@
     async function importarDraftMapas() {
       const link = document.getElementById("draftLinkMapas").value.trim();
       if (!link) {
-        customAlert("Cole o link do draft de MAPAS do aoe2cm.net antes de importar.");
+        customAlert("Cole o link do draft de MAPAS do aoe2cm.net antes de importar.", 'Error');
         return;
       }
 
       const match = link.match(/draft\/([A-Za-z0-9_-]+)/);
       if (!match) {
-        customAlert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx");
+        customAlert("Link inválido. O formato deve ser como: https://aoe2cm.net/draft/xxxxx", 'Error');
         return;
       }
 
@@ -1694,7 +1701,7 @@
       } catch (err) {
         console.error("Erro na importação do draft:", err);
         try { document.body.removeChild(loadingModal); } catch { }
-        customAlert("❌ Falha ao importar o draft de mapas. Verifique o link e tente novamente.");
+        customAlert("Falha ao importar o draft de mapas. Verifique o link e tente novamente.", 'Error');
       }
     }
 
@@ -1762,7 +1769,7 @@
 
       if (!playerName) {
         player.style.border = '2px solid red';
-        customAlert("❌ Para pesquisar no AoM Stats precisa do nome do jogador.");
+        customAlert("Para pesquisar no AoM Stats precisa do nome do jogador.", 'Error');
         return;
 
       };
