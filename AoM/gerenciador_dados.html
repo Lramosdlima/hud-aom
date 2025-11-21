@@ -177,6 +177,12 @@
       width: auto;
     }
 
+    .avatarUrl {
+      height: 30px;
+      width: auto;
+      border-radius: 4px;
+    }
+
     button {
       background-color: rgba(0, 0, 0, 0.5);
       color: #fff;
@@ -439,7 +445,10 @@
 
   <div class="scoreboard">
     <div class="player1">
-      <h3 class="section-title">Jogador 1</h3>
+      <h3 class="section-title">
+        <img id="avatarUrl1" style="margin-right: 12px;" class="avatarUrl" src="" alt="">
+        Jogador 1
+      </h3>
       <br>
       <div class="nome-pais">
         <button style="height: 50%" onclick="aomStatsLinkByPlayer('jogador1')" title="AoMStats Site">
@@ -448,6 +457,7 @@
         <input type="text" id="jogador1" placeholder="Nome Jogador 1"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
         <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1">
+
         <select id="pais1" onchange="atualizarBandeira('pais1', 'bandeira1')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -567,7 +577,10 @@
     </div>
 
     <div class="player2">
-      <h3 class="section-title">Jogador 2</h3>
+      <h3 class="section-title">
+        <img id="avatarUrl2" style="margin-right: 12px;" class="avatarUrl" src="" alt="">
+        Jogador 2
+      </h3>
       <br>
       <div class="nome-pais">
         <button style="height: 50%" onclick="aomStatsLinkByPlayer('jogador2')" title="AoMStats Site">
@@ -752,8 +765,14 @@
         if (dados.jogador_1) document.getElementById("jogador1").value = dados.jogador_1;
         if (dados.jogador_2) document.getElementById("jogador2").value = dados.jogador_2;
 
-        if (dados.avatar_1) document.getElementById("avatar1").value = dados.avatar_1;
-        if (dados.avatar_2) document.getElementById("avatar2").value = dados.avatar_2;
+        if (dados.avatar_1) {
+          document.getElementById("avatar1").value = dados.avatar_1
+          document.getElementById("avatarUrl1").src = dados.avatar_1
+        };
+        if (dados.avatar_2) {
+          document.getElementById("avatar2").value = dados.avatar_2;
+          document.getElementById("avatarUrl2").src = dados.avatar_2
+        }
 
         if (dados.pais_1) {
           document.getElementById("pais1").value = dados.pais_1;
