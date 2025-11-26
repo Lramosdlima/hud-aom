@@ -1,23 +1,26 @@
 letreiro= 1
 
 logo_camp= torneio de verao
+logo_streamer= logo-julian-rda
 fase= 
 
-mapa= null
-gods= null,null
+mapa= 
+gods= 
+mostrar_avatar= sim
 
 placar_1= 0
 jogador_1= 
+pais_1= 
 avatar_1= 
-pais_1= null
-gods_1= null
-maps_1= null
+gods_1= 
+maps_1= 
 
 placar_2= 0
-jogador_2=
-avatar_2=  
-pais_2= null
-gods_2= null
-maps_2= null
+jogador_2= 
+pais_2= 
+avatar_2= 
+gods_2= 
+maps_2= 
+
 cor1=azul
 cor2=vermelho
