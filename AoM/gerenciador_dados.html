@@ -456,8 +456,7 @@
         </button>
         <input type="text" id="jogador1" placeholder="Nome Jogador 1"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
-        <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1">
-
+        <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1" oninput="atualizarUrlAvatar(); atualizarUrlAvatar();">
         <select id="pais1" onchange="atualizarBandeira('pais1', 'bandeira1')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -588,7 +587,7 @@
         </button>
         <input type="text" id="jogador2" placeholder="Nome Jogador 2"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
-        <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2">
+        <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2" oninput="atualizarUrlAvatar(); atualizarUrlAvatar();" >
         <select id="pais2" onchange="atualizarBandeira('pais2', 'bandeira2')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -890,6 +889,14 @@
         img.src = "";
         img.alt = "";
       }
+    }
+
+    function atualizarUrlAvatar() {
+      const avatar1 = document.getElementById("avatar1").value;
+      const avatar2 = document.getElementById("avatar2").value;
+
+      if (avatar1) document.getElementById("avatarUrl1").src = avatar1;
+      if (avatar2) document.getElementById("avatarUrl2").src = avatar2;
     }
 
     function atualizarNomesDosBotoes() {
