@@ -13,7 +13,7 @@ Fala Streamers! Fizemos esse HuD do Age of Mythology Retold para vocês que gost
 2. Algumas telas podem não encaixar na HUD, então vá nas Configurações do Age of Mythology Retold e coloque **Interface**, em **Interface do Usuário** coloque 95% na Escala do HUD Mouse e Teclado e 150% na Escala Máxima do Minimapa. Faça ajustes finos se necessário aqui. Segue a imagem de exemplo:
 <img width="1268" height="693" alt="image" src="https://github.com/user-attachments/assets/cee50b68-2734-4790-9f07-586f75ddbb0c" />
 
-3. Depois de baixar e extrair na sua máquina, você consegue integrar adicionando uma nova Fonte do tipo Navegador. Marque "Arquivo Local" e procure a pasta que extraiu dentro de `hud-aom/AoM/hud.html` e também o `hud-aom/AoM/draft.html`.
+3. Depois de baixar e extrair na sua máquina, você consegue integrar no seu OBS adicionando uma "nova Fonte" do tipo "Navegador". Marque "Arquivo Local" e procure a pasta que extraiu dentro de `hud-aom/AoM/hud.html` e também o `hud-aom/AoM/draft.html`.
 <img width="880" height="786" alt="image" src="https://github.com/user-attachments/assets/13e81107-426f-4c0a-987a-a17d8f521880" />
 
 ## Editando e Salvando
