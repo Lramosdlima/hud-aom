@@ -979,7 +979,7 @@
         return;
       }
 
-      confirmAlert("Marcar Vencedor", "Tem certeza que deseja registrar o resultado da partida?<br><br> Isso marcará +1 ponto para o jogador escolhido como vencedor.", () => {
+      confirmAlert("Marcar Vencedor", "Essa ação marcará +1 ponto para o jogador escolhido como vencedor.<br><br>Tem certeza que deseja registrar o resultado da partida?", () => {
         // Atualiza o placar direto no DOM
         const placar1El = document.getElementById("placar1");
         const placar2El = document.getElementById("placar2");
@@ -1047,7 +1047,7 @@
     }
 
     function limparMarcacoes(jogador) {
-      confirmAlert("Limpar Draft", "Tem certeza que deseja limpar o draft?\nEssa ação não pode ser desfeita.", () => {
+      confirmAlert("Limpar Draft", "Essa ação irá remover todos os picks e bans dos gods e mapas desse jogador.<br><br>Tem certeza que deseja limpar o draft?", () => {
         ['god', 'map'].forEach(tipo => {
           const pasta = tipo === 'god' ? 'gods' : 'mapas';
           const imgs = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
@@ -1274,7 +1274,7 @@
     }
 
     function limparDados() {
-      confirmAlert("Limpar Dados", "Tem certeza que deseja resetar TODOS os dados e placar?", () => {
+      confirmAlert("Limpar Dados", "Tem certeza que deseja resetar <b>TODOS</b> os dados e placar?", () => {
         const salvos = localStorage.getItem("dadosInterface");
         let linhas = salvos ? JSON.parse(salvos) : [];
 
