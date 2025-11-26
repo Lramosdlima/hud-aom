@@ -61,6 +61,22 @@
       left: 1439px;
     }
 
+    .avatar {
+      width: 40px;
+      height: auto;
+      position: absolute;
+      top: 8px;
+      border-radius: 50%;
+    }
+
+    #avatar-1 {
+      left: 293px;
+    }
+
+    #avatar-2 {
+      right: 293px;
+    }
+
     .bandeira {
       width: 30px;
       height: auto;
@@ -135,6 +151,8 @@
     <div class="campo-placar" id="placar-2">0</div>
     <div class="campo-nome" id="jogador-1"></div>
     <div class="campo-nome" id="jogador-2"></div>
+    <img id="avatar-1" class="avatar" src="" alt="Avatar Azul">
+    <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
     <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
     <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
     <img id="logo-campeonato" src="" alt="Logo Campeonato">
@@ -159,6 +177,7 @@
 
         const interfaceSelecionada = dados.interface || '1';
         const letreiro = dados.letreiro || '1';
+        const mostrarAvatar = dados.mostrar_avatar || 'sim';
 
         const layout = document.getElementById('layout');
         layout.style.backgroundImage = interfaceSelecionada === '2'
@@ -172,6 +191,15 @@
           document.getElementById('placar-2').textContent = dados.placar_1 || '0';
           document.getElementById('jogador-1').textContent = dados.jogador_2 || '';
           document.getElementById('jogador-2').textContent = dados.jogador_1 || '';
+          if (mostrarAvatar === 'sim') {
+            document.getElementById('avatar-1').src = dados.avatar_2 || '';
+            document.getElementById('avatar-2').src = dados.avatar_1 || '';
+            document.getElementById('avatar-1').style.display = 'block';
+            document.getElementById('avatar-2').style.display = 'block';
+          } else {
+            document.getElementById('avatar-1').style.display = 'none';
+            document.getElementById('avatar-2').style.display = 'none';
+          }
           document.getElementById('bandeira-1').src = getBandeira(dados.pais_2);
           document.getElementById('bandeira-2').src = getBandeira(dados.pais_1);
         } else {
@@ -179,6 +207,15 @@
           document.getElementById('placar-2').textContent = dados.placar_2 || '0';
           document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
           document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
+          if (mostrarAvatar === 'sim') {
+            document.getElementById('avatar-1').src = dados.avatar_1 || '';
+            document.getElementById('avatar-2').src = dados.avatar_2 || '';
+            document.getElementById('avatar-1').style.display = 'block';
+            document.getElementById('avatar-2').style.display = 'block';
+          } else {
+            document.getElementById('avatar-1').style.display = 'none';
+            document.getElementById('avatar-2').style.display = 'none';
+          }
           document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
           document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
         }
@@ -186,8 +223,6 @@
         // Carregar flags coloridas para a HUD
         document.getElementById('cor1').src = dados.cor1 ? `assets/Flags/flagE_${dados.cor1}.png` : '';
         document.getElementById('cor2').src = dados.cor2 ? `assets/Flags/flagD_${dados.cor2}.png` : '';
-
-
 
         document.getElementById('fase').textContent = dados.fase || '';
         document.getElementById('nome-mapa').textContent = dados.mapa || '';
