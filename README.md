@@ -29,4 +29,7 @@ Desenvolvido por Julian RdA e atualizado por ScoobyManíaco, Kejizilla e Daniel 
 
 ### Anexos
 
+1ª Versão
 <img width="1577" height="1200" alt="image" src="https://github.com/user-attachments/assets/d8520492-bbdd-41ec-b38c-b924d9858af2" />
+2ª Versão
+<img width="1583" height="1200" alt="image" src="https://github.com/user-attachments/assets/8b9eca7f-391c-4ca0-8234-59988caac140" />
