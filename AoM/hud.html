@@ -8,7 +8,7 @@
       margin: 0;
       background: url('assets/fundo.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: sans-serif;
+      font-family: 'Transcend', sans-serif;
     }
 
     .hud {
@@ -29,10 +29,10 @@
     .campo-placar {
       position: absolute;
       color: white;
-      font-family: 'Arial', sans-serif;
+      /* font-family: 'Arial', sans-serif; */
       font-size: 80px;
       font-weight: bold;
-      top: -0.45%;
+      top: -0.80%;
       z-index: 11;
     }
 
@@ -47,8 +47,8 @@
     .campo-nome {
       position: absolute;
       color: white;
-      top: 55.3px;
-      font-size: 20px;
+      top: 52px;
+      font-size: 18px;
       transform: translateX(-50%);
       z-index: 12;
     }
@@ -96,12 +96,12 @@
 
     #fase {
       position: absolute;
-      bottom: 270px;
+      bottom: 266px;
       left: 9.90%;
       transform: translateX(-50%);
       color: white;
       font-size: 22px;
-      font-family: 'Verdana', sans-serif;
+      /* font-family: 'Verdana', sans-serif; */
       z-index: 20;
     }
 
@@ -115,6 +115,14 @@
       z-index: 10;
     }
 
+    #logo-streamer {
+      width: 80px;
+      height: auto;
+      position: absolute;
+      bottom: 30px;
+      right: 10px;
+      z-index: 10;
+    }
 
     #nome-mapa {
       position: absolute;
@@ -123,7 +131,7 @@
       transform: translateX(50%);
       color: white;
       font-size: 24px;
-      font-family: 'Verdana', sans-serif;
+      /* font-family: 'Verdana', sans-serif; */
       z-index: 10;
       text-align: center;
       white-space: nowrap;
@@ -157,6 +165,7 @@
     <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
     <img id="logo-campeonato" src="" alt="Logo Campeonato">
     <div id="nome-mapa"></div>
+    <img id="logo-streamer" src="" alt="Logo Streamer">
     <img id="cor1" class="flag-hud" src="" alt="Flag Esquerda">
     <img id="cor2" class="flag-hud" src="" alt="Flag Direita">
 
@@ -227,6 +236,7 @@
         document.getElementById('fase').textContent = dados.fase || '';
         document.getElementById('nome-mapa').textContent = dados.mapa || '';
         document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
+        document.getElementById('logo-streamer').src = dados.logo_streamer ? `assets/${dados.logo_streamer}.png` : '';
 
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
