@@ -313,6 +313,8 @@
 
       <div class="salvlimp">
         <button onclick="salvarDados()">Salvar Dados</button>
+        <input type="file" id="arquivoDados" accept=".txt" onchange="processarArquivo(event)" style="display: none;">
+        <button onclick="dispararInput()">Carregar Dados</button>
         <button onclick="limparDados()">Limpar Dados</button>
       </div>
 
@@ -456,7 +458,8 @@
         </button>
         <input type="text" id="jogador1" placeholder="Nome Jogador 1"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
-        <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1" oninput="atualizarUrlAvatar(); atualizarUrlAvatar();">
+        <input type="text" id="avatar1" placeholder="Url do Avatar do Jogador 1"
+          oninput="atualizarUrlAvatar(); atualizarUrlAvatar();">
         <select id="pais1" onchange="atualizarBandeira('pais1', 'bandeira1')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -587,7 +590,8 @@
         </button>
         <input type="text" id="jogador2" placeholder="Nome Jogador 2"
           oninput="atualizarNomesDosBotoes(); atualizarLetreiroComNomes();">
-        <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2" oninput="atualizarUrlAvatar(); atualizarUrlAvatar();" >
+        <input type="text" id="avatar2" placeholder="Url do Avatar do Jogador 2"
+          oninput="atualizarUrlAvatar(); atualizarUrlAvatar();">
         <select id="pais2" onchange="atualizarBandeira('pais2', 'bandeira2')">
           <option value="null">Selecione um País</option>
           <option value="africadosul">Africa do Sul</option>
@@ -709,6 +713,87 @@
     const gods = ['poseidon', 'zeus', 'hades', 'ra', 'isis', 'set', 'thor', 'odin', 'loki', 'freyr', 'kronos', 'oranos', 'gaia', 'nuwa', 'fuxi', 'shennong', 'amaterasu', 'tsukuyomi', 'susanoo'];
     const maps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
 
+    function atualizarTodosCampos(salvos) {
+      const linhas = JSON.parse(salvos);
+      let dados = {};
+      linhas.forEach(linha => {
+        const [chave, valor] = linha.split('=');
+        if (chave && valor !== undefined) dados[chave.trim()] = valor.trim();
+      });
+
+      if (dados.jogador_1) {
+        document.getElementById("jogador1").value = dados.jogador_1;
+        document.querySelector(".jogadorv1").textContent = `${dados.jogador_1} Venceu`;
+      }
+
+      if (dados.jogador_2) {
+        document.getElementById("jogador2").value = dados.jogador_2;
+        document.querySelector(".jogadorv2").textContent = `${dados.jogador_2} Venceu`;
+      }
+
+      // Restaurar campos básicos
+      if (dados.logo_camp) document.getElementById("logo_camp").value = dados.logo_camp;
+      if (dados.fase) document.getElementById("fase").value = dados.fase;
+      if (dados.mapa) document.getElementById("mapaSelect").value = dados.mapa;
+
+      if (dados.interface) document.getElementById("interface").value = dados.interface;
+      if (dados.letreiro) document.getElementById("letreiro").value = dados.letreiro;
+      if (dados.flagE) {
+        const cor1 = dados.flagE.replace('flagE_', '');
+        document.getElementById('cor1').value = cor1;
+      }
+      if (dados.flagD) {
+        const cor2 = dados.flagD.replace('flagD_', '');
+        document.getElementById('cor2').value = cor2;
+      }
+
+      if (dados.gods) {
+        const [g1, g2] = dados.gods.split(',');
+        document.getElementById("versusSelect1").value = g1;
+        document.getElementById("versusSelect2").value = g2;
+      }
+
+      if (dados.placar_1) document.getElementById("placar1").textContent = dados.placar_1;
+      if (dados.placar_2) document.getElementById("placar2").textContent = dados.placar_2;
+
+      if (dados.jogador_1) document.getElementById("jogador1").value = dados.jogador_1;
+      if (dados.jogador_2) document.getElementById("jogador2").value = dados.jogador_2;
+
+      if (dados.avatar_1) {
+        document.getElementById("avatar1").value = dados.avatar_1
+        document.getElementById("avatarUrl1").src = dados.avatar_1
+      };
+      if (dados.avatar_2) {
+        document.getElementById("avatar2").value = dados.avatar_2;
+        document.getElementById("avatarUrl2").src = dados.avatar_2
+      }
+
+      if (dados.pais_1) {
+        document.getElementById("pais1").value = dados.pais_1;
+        atualizarBandeira("pais1", "bandeira1");
+      }
+      if (dados.pais_2) {
+        document.getElementById("pais2").value = dados.pais_2;
+        atualizarBandeira("pais2", "bandeira2");
+      }
+
+      // Restaurar draft gods e mapas para jogadores 1 e 2
+      restaurarDraft(1, 'god', dados);
+      restaurarDraft(1, 'map', dados);
+      restaurarDraft(2, 'god', dados);
+      restaurarDraft(2, 'map', dados);
+
+      if (dados.cor1) {
+        document.getElementById('cor1').value = dados.cor1;
+      }
+      if (dados.cor2) {
+        document.getElementById('cor2').value = dados.cor2;
+      }
+
+      // NOVO: Aplica as cores de fundo
+      trocarCorDeFundo();
+    }
+
     window.onload = () => {
 
       carregarItens('god', 1);
@@ -719,86 +804,10 @@
       // Restaurar dados do localStorage, se houver
       const salvos = localStorage.getItem("dadosInterface");
       if (salvos) {
-        const linhas = JSON.parse(salvos);
-        let dados = {};
-        linhas.forEach(linha => {
-          const [chave, valor] = linha.split('=');
-          if (chave && valor !== undefined) dados[chave.trim()] = valor.trim();
-        });
-
-        if (dados.jogador_1) {
-          document.getElementById("jogador1").value = dados.jogador_1;
-          document.querySelector(".jogadorv1").textContent = `${dados.jogador_1} Venceu`;
-        }
-
-        if (dados.jogador_2) {
-          document.getElementById("jogador2").value = dados.jogador_2;
-          document.querySelector(".jogadorv2").textContent = `${dados.jogador_2} Venceu`;
-        }
-
-        // Restaurar campos básicos
-        if (dados.logo_camp) document.getElementById("logo_camp").value = dados.logo_camp;
-        if (dados.fase) document.getElementById("fase").value = dados.fase;
-        if (dados.mapa) document.getElementById("mapaSelect").value = dados.mapa;
-
-        if (dados.interface) document.getElementById("interface").value = dados.interface;
-        if (dados.letreiro) document.getElementById("letreiro").value = dados.letreiro;
-        if (dados.flagE) {
-          const cor1 = dados.flagE.replace('flagE_', '');
-          document.getElementById('cor1').value = cor1;
-        }
-        if (dados.flagD) {
-          const cor2 = dados.flagD.replace('flagD_', '');
-          document.getElementById('cor2').value = cor2;
-        }
-
-        if (dados.gods) {
-          const [g1, g2] = dados.gods.split(',');
-          document.getElementById("versusSelect1").value = g1;
-          document.getElementById("versusSelect2").value = g2;
-        }
-
-        if (dados.placar_1) document.getElementById("placar1").textContent = dados.placar_1;
-        if (dados.placar_2) document.getElementById("placar2").textContent = dados.placar_2;
-
-        if (dados.jogador_1) document.getElementById("jogador1").value = dados.jogador_1;
-        if (dados.jogador_2) document.getElementById("jogador2").value = dados.jogador_2;
-
-        if (dados.avatar_1) {
-          document.getElementById("avatar1").value = dados.avatar_1
-          document.getElementById("avatarUrl1").src = dados.avatar_1
-        };
-        if (dados.avatar_2) {
-          document.getElementById("avatar2").value = dados.avatar_2;
-          document.getElementById("avatarUrl2").src = dados.avatar_2
-        }
-
-        if (dados.pais_1) {
-          document.getElementById("pais1").value = dados.pais_1;
-          atualizarBandeira("pais1", "bandeira1");
-        }
-        if (dados.pais_2) {
-          document.getElementById("pais2").value = dados.pais_2;
-          atualizarBandeira("pais2", "bandeira2");
-        }
-
-        // Restaurar draft gods e mapas para jogadores 1 e 2
-        restaurarDraft(1, 'god', dados);
-        restaurarDraft(1, 'map', dados);
-        restaurarDraft(2, 'god', dados);
-        restaurarDraft(2, 'map', dados);
-
-        if (dados.cor1) {
-          document.getElementById('cor1').value = dados.cor1;
-        }
-        if (dados.cor2) {
-          document.getElementById('cor2').value = dados.cor2;
-        }
-
-        // NOVO: Aplica as cores de fundo
-        trocarCorDeFundo();
+        atualizarTodosCampos(salvos);
       }
     };
+
 
     // Função customizada para substitutir o customAlert()
     const customAlert = (message, type) => {
@@ -1273,6 +1282,59 @@
       })
     }
 
+    function dispararInput() {
+      // Pega o elemento input real
+      document.getElementById('arquivoDados').click();
+    }
+
+    function processarArquivo(event) {
+      const input = event.target; // O input que disparou o evento
+      const arquivo = input.files[0];
+
+      if (!arquivo) {
+        console.error("Nenhum arquivo selecionado.");
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const conteudo = e.target.result;
+
+        // Salva os dados no localStorage
+        const dados = [];
+        const linhas = conteudo.split('\n');
+        linhas.forEach(linha => {
+          const [chave, valor] = linha.split('=');
+          if (chave && valor !== undefined) {
+            dados.push(`${chave.trim()}=${valor.trim()}`);
+          }
+        });
+        localStorage.setItem("dadosInterface", JSON.stringify(dados));
+
+        // Atualiza os campos do formulário
+        atualizarTodosCampos(JSON.stringify(dados));
+
+        carregarItens('god', 1);
+        carregarItens('god', 2);
+        carregarItens('map', 1);
+        carregarItens('map', 2);
+        atualizarNomesDosBotoes();
+        atualizarLetreiroComNomes();
+
+        customAlert("Dados carregados com sucesso!", 'Sucesso');
+
+        // Opcional: Limpar o input para permitir o carregamento do mesmo arquivo novamente
+        input.value = '';
+      };
+
+      reader.onerror = function () {
+        customAlert("Erro ao ler o arquivo.", 'Error');
+      };
+
+      reader.readAsText(arquivo);
+    }
+
     function limparDados() {
       confirmAlert("Limpar Dados", "Tem certeza que deseja resetar <b>TODOS</b> os dados e placar?", () => {
         const salvos = localStorage.getItem("dadosInterface");
@@ -1456,7 +1518,7 @@
 
         // Se invertidos ou diferentes → pedir confirmação
         if (nomesEstaoInvertidos || nomesCompletamenteDiferentes) {
-          confirmAlert("Alerta!", 
+          confirmAlert("Alerta!",
             "Os nomes estão diferentes da ordem do draft.\nDeseja substituir os nomes e aplicar o draft?",
             () => {
               inputJogador1.value = nomeHostAPI;
@@ -1635,7 +1697,7 @@
 
         // Se nomes são invertidos OU diferentes → perguntar ao usuário
         if (nomesEstaoInvertidos || nomesCompletamenteDiferentes) {
-          confirmAlert("Alerta!", 
+          confirmAlert("Alerta!",
             "Os nomes estão diferentes da ordem do draft.\nDeseja substituir os nomes e aplicar o draft?",
             () => {
               // Usuário confirmou → sobrescrever os nomes conforme a API
