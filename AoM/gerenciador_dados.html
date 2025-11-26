@@ -979,7 +979,7 @@
         return;
       }
 
-      confirmAlert("Marcar Vencedor", "Tem certeza que deseja registrar o resultado?", () => {
+      confirmAlert("Marcar Vencedor", "Tem certeza que deseja registrar o resultado da partida?<br><br> Isso marcará +1 ponto para o jogador escolhido como vencedor.", () => {
         // Atualiza o placar direto no DOM
         const placar1El = document.getElementById("placar1");
         const placar2El = document.getElementById("placar2");
