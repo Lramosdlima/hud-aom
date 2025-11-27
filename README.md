@@ -1,7 +1,7 @@
 # HUD AoM
 
 ## Apresentação
-Fala Streamers! Fizemos esse HuD do Age of Mythology Retold para vocês que gostam de fazer narração de partidas e precisa de um layout exclusivo e interativo! Lembre-se de dar os devidos créditos caso tenha que utilizar em sua live! Faça bom uso!
+Fala Streamers! Aqui quem fala é o Scooby! Fizemos esse HuD do Age of Mythology Retold para vocês que gostam de fazer narração de partidas e precisa de um layout exclusivo e interativo! Lembre-se de dar os devidos créditos caso tenha que utilizar em sua live! Conseguimos grande parte da programação pelo Julian RdA! E tivemos ajuda total dos designers Daniel Chinelato e Kenjizilla! Honre essa galera e faça bom uso!
 
 <img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/efd94798-251a-4f22-be77-cac9056fc28b" />
 <img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/ed5d1956-b935-44d8-8227-16ca855ae547" />
