@@ -64,7 +64,7 @@
       left: 1766px;
     }
 
-    .bandeira {   
+    .bandeira {
       width: 45px;
       height: auto;
       position: absolute;
@@ -266,8 +266,8 @@
       background: linear-gradient(to left, rgba(116, 23, 23, 0.7) 1%, transparent 100%);
     }
 
-    .gif-background {
-      background-image: url('assets/particles.gif');
+    .gif-background-particulas {
+      /* background-image: url('assets/particles.gif'); */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -277,11 +277,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
+      z-index: 5;
     }
 
-    .gif-background-2 {
-      background-image: url('assets/fuego.gif');
+    .gif-background-fogo {
+      /* background-image: url('assets/fuego.gif'); */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -291,7 +291,21 @@
       left: 0;
       width: 100%;
       height: 60%;
-      z-index: 1;
+      z-index: 5;
+    }
+
+    .gif-background-fundo {
+      /* background-image: url('assets/fundo.gif'); */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* opacity: 0.6; */
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
   </style>
 </head>
@@ -326,8 +340,9 @@
   <div id="gods-2" class="pick-ban-row"></div>
   <div id="maps-1" class="pick-ban-row reverse"></div>
   <div id="maps-2" class="pick-ban-row"></div>
-  <div class="gif-background"></div>
-  <div class="gif-background-2"></div>
+  <div class="gif-background-particulas" id="gif-background-particulas"></div>
+  <div class="gif-background-fogo" id="gif-background-fogo"></div>
+  <div class="gif-background-fundo" id="gif-background-fundo"></div>
   </div>
 
   <script>
@@ -352,6 +367,16 @@
           const [chave, valor] = linhaLimpa.split('=');
           if (chave && valor) dados[chave.trim()] = valor.trim();
         });
+
+
+
+        if (dados.particulas === 'sim') {
+          document.getElementById('gif-background-particulas').style.backgroundImage = "url('assets/particles.gif')";
+          document.getElementById('gif-background-fogo').style.backgroundImage = "url('assets/fuego.gif')";
+        } else {
+          document.getElementById('gif-background-particulas').style.backgroundImage = "url('')";
+          document.getElementById('gif-background-fogo').style.backgroundImage = "url('')";
+        }
 
         document.getElementById('layout').style.backgroundImage = "url('assets/layout.png')";
 
