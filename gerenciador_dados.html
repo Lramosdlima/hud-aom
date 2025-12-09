@@ -882,7 +882,7 @@
       else if (imgId === 'cor2') tipo = 'flagD';
 
       if (cor) {
-        img.src = `assets/Flags/${tipo}_${cor}.png`;
+        img.src = `AoM/assets/Flags/${tipo}_${cor}.png`;
       } else {
         img.src = "";
       }
@@ -892,7 +892,7 @@
       const pais = document.getElementById(selectId).value;
       const img = document.getElementById(imgId);
       if (pais) {
-        img.src = `bandeiras/${pais}.png`;
+        img.src = `AoM/assets/bandeiras/${pais}.png`;
         img.alt = pais;
       } else {
         img.src = "";
@@ -924,7 +924,7 @@
 
       itens.forEach(nome => {
         const img = document.createElement('img');
-        img.src = `${pasta}/${nome}.png`;
+        img.src = `AoM/assets/${pasta}/${nome}.png`;
         img.alt = nome;
         img.dataset.nome = nome;
         img.dataset.estado = '';
@@ -959,18 +959,18 @@
 
       if (tipo === 'pick') {
         if (estadoAtual === 'pick') {
-          img.src = `${pasta}/${nome}.png`;
+          img.src = `AoM/assets/${pasta}/${nome}.png`;
           img.dataset.estado = '';
         } else {
-          img.src = `${pasta}/${nome}_p.png`;
+          img.src = `AoM/assets/${pasta}/${nome}_p.png`;
           img.dataset.estado = 'pick';
         }
       } else if (tipo === 'ban') {
         if (estadoAtual === 'ban') {
-          img.src = `${pasta}/${nome}.png`;
+          img.src = `AoM/assets/${pasta}/${nome}.png`;
           img.dataset.estado = '';
         } else {
-          img.src = `${pasta}/${nome}_b.png`;
+          img.src = `AoM/assets/${pasta}/${nome}_b.png`;
           img.dataset.estado = 'ban';
         }
       }
@@ -1062,7 +1062,7 @@
           const imgs = document.querySelectorAll(`.${tipo}-grid[data-jogador="${jogador}"] .item-img`);
           imgs.forEach(img => {
             const nome = img.dataset.nome;
-            img.src = `${pasta}/${nome}.png`;
+            img.src = `AoM/assets/${pasta}/${nome}.png`;
             img.dataset.estado = '';
           });
         });
@@ -1409,13 +1409,13 @@
         const pick = lista.includes(`${nome}_p`);
         const ban = lista.includes(`${nome}_b`);
         if (pick) {
-          img.src = `${tipo === 'god' ? 'gods' : 'mapas'}/${nome}_p.png`;
+          img.src = `AoM/assets/${tipo === 'god' ? 'gods' : 'mapas'}/${nome}_p.png`;
           img.dataset.estado = 'pick';
         } else if (ban) {
-          img.src = `${tipo === 'god' ? 'gods' : 'mapas'}/${nome}_b.png`;
+          img.src = `AoM/assets/${tipo === 'god' ? 'gods' : 'mapas'}/${nome}_b.png`;
           img.dataset.estado = 'ban';
         } else {
-          img.src = `${tipo === 'god' ? 'gods' : 'mapas'}/${nome}.png`;
+          img.src = `AoM/assets/${tipo === 'god' ? 'gods' : 'mapas'}/${nome}.png`;
           img.dataset.estado = '';
         }
       });
@@ -1574,13 +1574,13 @@
             imgs.forEach(img => {
               const nomeImg = normalizarNome(img.dataset.nome || "");
               img.dataset.estado = '';
-              img.src = `gods/${nomeImg}.png`;
+              img.src = `AoM/assets/gods/${nomeImg}.png`;
 
               if (picksJog.includes(`${nomeImg}_p`)) {
-                img.src = `gods/${nomeImg}_p.png`;
+                img.src = `AoM/assets/gods/${nomeImg}_p.png`;
                 img.dataset.estado = 'pick';
               } else if (bansJog.includes(`${nomeImg}_b`)) {
-                img.src = `gods/${nomeImg}_b.png`;
+                img.src = `AoM/assets/gods/${nomeImg}_b.png`;
                 img.dataset.estado = 'ban';
               }
             });
@@ -1753,13 +1753,13 @@
             imgs.forEach(img => {
               const nomeImg = normalizarNome(img.dataset.nome || "");
               img.dataset.estado = '';
-              img.src = `mapas/${nomeImg}.png`;
+              img.src = `AoM/assets/mapas/${nomeImg}.png`;
 
               if (picks.includes(`${nomeImg}_p`)) {
-                img.src = `mapas/${nomeImg}_p.png`;
+                img.src = `AoM/assets/mapas/${nomeImg}_p.png`;
                 img.dataset.estado = 'pick';
               } else if (bans.includes(`${nomeImg}_b`)) {
-                img.src = `mapas/${nomeImg}_b.png`;
+                img.src = `AoM/assets/mapas/${nomeImg}_b.png`;
                 img.dataset.estado = 'ban';
               }
             });
