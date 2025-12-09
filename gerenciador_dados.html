@@ -1264,6 +1264,8 @@
 
         dados.push('\nparticulas= sim');
 
+        dados.push(`\ninterface= ${document.getElementById('interface').value || '1'}`);
+
         // Recupera partidas anteriores do localStorage
         const salvosAntigos = localStorage.getItem("dadosInterface");
         const linhasAntigas = salvosAntigos ? JSON.parse(salvosAntigos) : [];

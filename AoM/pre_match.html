@@ -6,8 +6,6 @@
   <style>
     body {
       margin: 0;
-      background: url('assets/fundo.png') no-repeat center center fixed;
-      background-size: cover;
       font-family: 'Transcend', sans-serif;
     }
 
@@ -19,117 +17,157 @@
 
     .layout {
       background: no-repeat center;
-      background-size: contain;
+      background-size: cover;
       width: 100%;
       height: 100%;
       position: absolute;
+      opacity: 0.4;
     }
 
     .campo-placar {
       position: absolute;
-      color: white;
+      color: #e8caa6;
       font-size: 90px;
       font-weight: bold;
-      top: 60px;
+      top: 100px;
+      z-index: 12;
+      -webkit-text-stroke-width: 0.5px;
+      -webkit-text-stroke-color: rgb(83, 59, 23);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     }
 
     #placar-1 {
-      left: 124px;
+      left: 830px;
 
     }
 
     #placar-2 {
-      right: 124px;
+      right: 834px;
+    }
+
+    #placar-border {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      width: 445px; 
+      height: auto;
+      z-index: 10;
     }
 
     .campo-nome {
       color: #ecc884;
-      font-size: 0.75em;
       font-weight: bold;
+      position: absolute;
       padding: 1px 2px;
       border-radius: 8px;
       position: absolute;
-      top: 185px;
-      font-size: 30px;
-      transform: translateX(-50%);
+      top: 90px;
+      font-size: 50px;
       white-space: nowrap;
       font-family: 'Transcend', Arial, sans-serif;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: rgb(178, 136, 72);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     }
 
     #jogador-1 {
-      left: 153px;
+      right: 1200px;
     }
 
     #jogador-2 {
-      left: 1766px;
+      left: 1200px;
     }
 
     .bandeira {
       width: 45px;
       height: auto;
       position: absolute;
-      top: 60px;
+      top: 72px;
       transform: translateY(-50%);
       border-radius: 8px;
+      z-index: 12;
+      border: 2px solid #2e2208;
     }
 
     #bandeira-1 {
-      left: 46px;
+      left: 41.3%;
     }
 
     #bandeira-2 {
-      right: 46px;
+      right: 41.3%;
     }
 
     .avatar {
-      width: 95px;
+      width: 180px;
       height: auto;
       position: absolute;
-      top: 225px;
+      top: 164px;
       border-radius: 50%;
       border: 3px solid #2e2208;
+      z-index: 10;
     }
 
     #avatar-1 {
-      left: 103px;
+      left: 322px;
     }
 
     #avatar-2 {
-      right: 101px;
+      right: 322px;
     }
 
     .avatar-border {
+      width: 220px;
       height: auto;
       position: absolute;
-      top: 240px;
+      top: 150px;
+      z-index: 10;
     }
 
     #avatar-border-1 {
-      left: 1px;
+      left: 305px;
     }
 
     #avatar-border-2 {
-      right: 1px;
+      right: 305px;
+    }
+
+    .god-border {
+      width: 500px;
+      height: auto;
+      position: absolute;
+      top: 300px;
+      z-index: 5;
+      opacity: 0.7;
+    }
+
+    #god-border-1 {
+      left: 285px;
+    }
+
+    #god-border-2 {
+      right: 285px;
     }
 
     #fase {
       position: absolute;
-      bottom: 620px;
-      left: 18%;
+      bottom: 20px;
+      left: 50%;
       transform: translateX(-50%);
-      color: rgb(255, 255, 255);
+      color: #ecc884;
       font-weight: bold;
       font-size: 35px;
       font-family: sans-serif;
       z-index: 5;
       -webkit-text-stroke-width: 0.5px;
-      -webkit-text-stroke-color: rgb(255, 254, 193);
+      -webkit-text-stroke-color: rgb(178, 136, 72);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     }
 
     #logo-campeonato {
       position: absolute;
-      bottom: 290px;
-      left: 18%;
+      top: 30%;
+      left: 50%;
       transform: translate(-50%, 0%);
       width: 650px;
       height: auto;
@@ -149,19 +187,27 @@
 
     #imagem-mapa {
       position: absolute;
-      top: 120px;
-      left: 50%;
-      transform: translate(-50%, 0%);
-      width: 180px;
+      bottom: 58px;
+      left: 734px;
+      width: 413px;
       height: auto;
-      z-index: 1;
+      z-index: 10;
+    }
+
+    #mapa-border {
+      position: absolute;
+      bottom: 58px;
+      left: 730px;
+      width: 430px; 
+      height: auto;
+      z-index: 10;
     }
 
     .deus {
-      width: 570px;
+      width: 500px;
       height: auto;
       position: absolute;
-      top: 35px;
+      top: 300px;
       z-index: 5;
     }
 
@@ -265,48 +311,6 @@
       border-radius: 6px;
       background: linear-gradient(to left, rgba(116, 23, 23, 0.7) 1%, transparent 100%);
     }
-
-    .gif-background-particulas {
-      /* background-image: url('assets/particles.gif'); */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.3;
-      position: absolute;
-      bottom: 180px;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;
-    }
-
-    .gif-background-fogo {
-      /* background-image: url('assets/fuego.gif'); */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.6;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60%;
-      z-index: 5;
-    }
-
-    .gif-background-fundo {
-      /* background-image: url('assets/fundo.gif'); */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      /* opacity: 0.6; */
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
   </style>
 </head>
 
@@ -316,37 +320,39 @@
     <div class="layout" id="layout"></div>
   </div>
 
-  <!-- <div id="fase"></div> -->
+  <div id="fase"></div>
   <div class="campo-placar" id="placar-1">0</div>
   <div class="campo-placar" id="placar-2">0</div>
   <div class="campo-nome" id="jogador-1"></div>
   <div class="campo-nome" id="jogador-2"></div>
   <img id="avatar-1" class="avatar" src="" alt="Avatar Azul">
   <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
-  <img id="avatar-border-1" class="avatar-border" src="assets/avatar-border-1.png" alt="Borda Azul">
-  <img id="avatar-border-2" class="avatar-border" src="assets/avatar-border-2.png" alt="Borda Vermelha">
+  <img id="avatar-border-1" class="avatar-border" src="assets/moldura_azul.png" alt="Borda Azul">
+  <img id="avatar-border-2" class="avatar-border" src="assets/moldura_vermelho.png" alt="Borda Vermelha">
   <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
   <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
   <img id="logo-campeonato" src="" alt="Logo Campeonato">
-  <div id="proxima-partida">Próxima partida</div>
+  <img id="placar-border" src="assets/draft/placar.png" alt="Borda Placar">
+  <!-- <div id="proxima-partida">Próxima partida</div> -->
   <img id="imagem-mapa" src="" alt="Imagem do Mapa">
+  <img id="mapa-border" src="assets/mapas-3d/base.png" alt="Borda Mapa">
   <img id="god-1" class="deus" src="" alt="Deus 1">
   <img id="god-2" class="deus" src="" alt="Deus 2">
-  <div id="nome-mapa"></div>
-  <div class="resultados-partidas" id="resultados-partidas"></div>
+  <img id="god-border-1" class="god-border" src="assets/draft/moldura_god.png" alt="Borda Deus 1">
+  <img id="god-border-2" class="god-border" src="assets/draft/moldura_god.png" alt="Borda Deus 2">
+  <!-- <div id="nome-mapa"></div> -->
+  <!-- <div class="resultados-partidas" id="resultados-partidas"></div> -->
 
   <!-- Picks & Bans gods e maps -->
-  <div id="gods-1" class="pick-ban-row reverse"></div>
-  <div id="gods-2" class="pick-ban-row"></div>
-  <div id="maps-1" class="pick-ban-row reverse"></div>
-  <div id="maps-2" class="pick-ban-row"></div>
-  <div class="gif-background-particulas" id="gif-background-particulas"></div>
-  <!-- <div class="gif-background-fogo" id="gif-background-fogo"></div> -->
-  <div class="gif-background-fundo" id="gif-background-fundo"></div>
+  <!-- <div id="gods-1" class="pick-ban-row reverse"></div>
+  <div id="gods-2" class="pick-ban-row"></div> -->
+  <!-- <div id="maps-1" class="pick-ban-row reverse"></div>
+  <div id="maps-2" class="pick-ban-row"></div> -->
   </div>
 
   <script>
     const gerarNomeArquivo = (nome) => {
+      // Remove espaços e acentos
       return nome
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, '')
@@ -368,17 +374,9 @@
           if (chave && valor) dados[chave.trim()] = valor.trim();
         });
 
+        const interface = dados.interface || '1';
 
-
-        if (dados.particulas === 'sim') {
-          document.getElementById('gif-background-particulas').style.backgroundImage = "url('assets/particles.gif')";
-          // document.getElementById('gif-background-fogo').style.backgroundImage = "url('assets/fuego.gif')";
-        } else {
-          document.getElementById('gif-background-particulas').style.backgroundImage = "url('')";
-          // document.getElementById('gif-background-fogo').style.backgroundImage = "url('')";
-        }
-
-        document.getElementById('layout').style.backgroundImage = "url('assets/layout.png')";
+        document.getElementById('layout').style.backgroundImage = `url('assets/draft/composicao_${interface}.gif')`;
 
         const getBandeira = (pais) => pais ? `assets/bandeiras/${pais.toLowerCase()}.png` : '';
 
@@ -395,36 +393,38 @@
         document.getElementById('logo-campeonato').src = dados.logo_camp ? `assets/campeonatos/${dados.logo_camp}.png` : '';
 
         const nomeMapa = dados.mapa || '';
-        document.getElementById('nome-mapa').textContent = nomeMapa;
+        document.getElementById('fase').textContent = nomeMapa || '';
+        // document.getElementById('nome-mapa').textContent = nomeMapa;
         document.getElementById('imagem-mapa').src = nomeMapa
-          ? `assets/mapas/${gerarNomeArquivo(nomeMapa)}.png`
+          ? `assets/mapas-3d/${gerarNomeArquivo(nomeMapa)}.png`
           : '';
 
         const gods = (dados.gods || '').split(',');
-        document.getElementById('god-1').src = gods[0] ? `assets/gods/infos_gods_${gods[0].toLowerCase()}.png` : '';
-        document.getElementById('god-2').src = gods[1] ? `assets/gods/infos_gods_${gods[1].toLowerCase()}.png` : '';
+        const lowerCase = (str) => str.toLowerCase();
+        document.getElementById('god-1').src = gods[0] ? `assets/draft/gods/${lowerCase(gods[0])}.jpg` : '';
+        document.getElementById('god-2').src = gods[1] ? `assets/draft/gods/${lowerCase(gods[1])}.jpg` : '';
 
-        const maps = (dados.gods || '').split(',');
-        document.getElementById('maps-1').src = gods[0] ? `assets/mapas/${maps[0].toLowerCase()}.png` : '';
-        document.getElementById('maps-2').src = gods[1] ? `assets/mapas/${maps[1].toLowerCase()}.png` : '';
+        // const maps = (dados.gods || '').split(',');
+        // document.getElementById('maps-1').src = gods[0] ? `mapas/${maps[0].toLowerCase()}.png` : '';
+        // document.getElementById('maps-2').src = gods[1] ? `mapas/${maps[1].toLowerCase()}.png` : '';
 
-        const atualizarListaImagens = (id, lista) => {
-          const container = document.getElementById(id);
-          container.innerHTML = '';
-          const isMap = id.includes('maps'); // detecta se é mapa
-          const pasta = isMap ? 'mapas' : 'gods';
+        // const atualizarListaImagens = (id, lista) => {
+        //   const container = document.getElementById(id);
+        //   container.innerHTML = '';
+        //   const isMap = id.includes('maps'); // detecta se é mapa
+        //   const pasta = isMap ? 'mapas' : 'gods';
 
-          lista.forEach(nome => {
-            const img = document.createElement('img');
-            img.src = `assets/${pasta}/${gerarNomeArquivo(nome)}.png`;
-            container.appendChild(img);
-          });
-        };
+        //   lista.forEach(nome => {
+        //     const img = document.createElement('img');
+        //     img.src = `${pasta}/${gerarNomeArquivo(nome)}.png`;
+        //     container.appendChild(img);
+        //   });
+        // };
 
-        atualizarListaImagens('gods-1', (dados.gods_1 || '').split(',').filter(x => x));
-        atualizarListaImagens('gods-2', (dados.gods_2 || '').split(',').filter(x => x));
-        atualizarListaImagens('maps-1', (dados.maps_1 || '').split(',').filter(x => x));
-        atualizarListaImagens('maps-2', (dados.maps_2 || '').split(',').filter(x => x));
+        // atualizarListaImagens('gods-1', (dados.gods_1 || '').split(',').filter(x => x));
+        // atualizarListaImagens('gods-2', (dados.gods_2 || '').split(',').filter(x => x));
+        // atualizarListaImagens('maps-1', (dados.maps_1 || '').split(',').filter(x => x));
+        // atualizarListaImagens('maps-2', (dados.maps_2 || '').split(',').filter(x => x));
 
         async function carregarDados() {
           try {
@@ -440,78 +440,78 @@
               }
             });
 
-            exibirPartidas(dados);
+            // exibirPartidas(dados);
           } catch (err) {
             console.error('Erro ao carregar dados.txt:', err);
           }
         }
 
-        function exibirPartidas(dados) {
-          const container = document.getElementById('resultados-partidas');
-          container.innerHTML = '';
+        // function exibirPartidas(dados) {
+        //   const container = document.getElementById('resultados-partidas');
+        //   container.innerHTML = '';
 
-          let partidas = [];
-          for (let i = 1; i <= 99; i++) {
-            const key = `partida${i}`;
-            if (dados[key]) partidas.push(dados[key]);
-          }
+        //   let partidas = [];
+        //   for (let i = 1; i <= 99; i++) {
+        //     const key = `partida${i}`;
+        //     if (dados[key]) partidas.push(dados[key]);
+        //   }
 
-          if (partidas.length > 6) {
-            partidas = partidas.slice(-6);
-          }
+        //   if (partidas.length > 6) {
+        //     partidas = partidas.slice(-6);
+        //   }
 
-          partidas.forEach(linha => {
-            const valores = linha.split(',');
-            if (valores.length < 4) return;
+        //   partidas.forEach(linha => {
+        //     const valores = linha.split(',');
+        //     if (valores.length < 4) return;
 
-            const [vencInfo, perdDeus, mapa, vencedorValor] = valores.map(s => s.trim());
-            if (!vencInfo || !perdDeus || !mapa || !vencedorValor) return;
+        //     const [vencInfo, perdDeus, mapa, vencedorValor] = valores.map(s => s.trim());
+        //     if (!vencInfo || !perdDeus || !mapa || !vencedorValor) return;
 
-            // Remove o número da partida (antes do nome)
-            const vencInfoLimpo = vencInfo.replace(/^\d+\.\s*/, '');
-            const [vencNome, vencDeus] = vencInfoLimpo.split(':');
-            if (!vencNome || !vencDeus) return;
+        //     // Remove o número da partida (antes do nome)
+        //     const vencInfoLimpo = vencInfo.replace(/^\d+\.\s*/, '');
+        //     const [vencNome, vencDeus] = vencInfoLimpo.split(':');
+        //     if (!vencNome || !vencDeus) return;
 
-            const partidaDiv = document.createElement('div');
-            partidaDiv.className = 'partida';
+        //     const partidaDiv = document.createElement('div');
+        //     partidaDiv.className = 'partida';
 
-            if (vencedorValor === "B") {
-              partidaDiv.classList.add("direita");
-            } else {
-              partidaDiv.classList.add("esquerda");
-            }
+        //     if (vencedorValor === "B") {
+        //       partidaDiv.classList.add("direita");
+        //     } else {
+        //       partidaDiv.classList.add("esquerda");
+        //     }
 
-            const nomeSpan = document.createElement('span');
-            nomeSpan.className = 'nome';
-            nomeSpan.textContent = vencNome;
+        //     const nomeSpan = document.createElement('span');
+        //     nomeSpan.className = 'nome';
+        //     nomeSpan.textContent = vencNome;
 
-            const imgVencedor = document.createElement('img');
-            imgVencedor.className = 'deus-img';
-            imgVencedor.src = `assets/gods/${vencDeus.toLowerCase()}.png`;
+        //     const imgVencedor = document.createElement('img');
+        //     imgVencedor.className = 'deus-img';
+        //     imgVencedor.src = `gods/${vencDeus.toLowerCase()}.png`;
 
-            const imgMapa = document.createElement('img');
-            imgMapa.className = 'mapa-img';
-            imgMapa.src = `assets/mapas/${mapa.toLowerCase().replace(/\s+/g, '')}.png`;
+        //     const imgMapa = document.createElement('img');
+        //     imgMapa.className = 'mapa-img';
+        //     imgMapa.src = `mapas/${mapa.toLowerCase().replace(/\s+/g, '')}.png`;
 
-            const imgPerdedor = document.createElement('img');
-            imgPerdedor.className = 'deus-img cinza';
-            imgPerdedor.src = `assets/gods/${perdDeus.toLowerCase()}.png`;
+        //     const imgPerdedor = document.createElement('img');
+        //     imgPerdedor.className = 'deus-img cinza';
+        //     imgPerdedor.src = `gods/${perdDeus.toLowerCase()}.png`;
 
-            if (vencedorValor === "B") {
-              partidaDiv.appendChild(imgPerdedor);
-              partidaDiv.appendChild(imgMapa);
-              partidaDiv.appendChild(imgVencedor);
-              partidaDiv.appendChild(nomeSpan);
-            } else {
-              partidaDiv.appendChild(nomeSpan);
-              partidaDiv.appendChild(imgVencedor);
-              partidaDiv.appendChild(imgMapa);
-              partidaDiv.appendChild(imgPerdedor);
-            }
+        //     if (vencedorValor === "B") {
+        //       partidaDiv.appendChild(imgPerdedor);
+        //       partidaDiv.appendChild(imgMapa);
+        //       partidaDiv.appendChild(imgVencedor);
+        //       partidaDiv.appendChild(nomeSpan);
+        //     } else {
+        //       partidaDiv.appendChild(nomeSpan);
+        //       partidaDiv.appendChild(imgVencedor);
+        //       partidaDiv.appendChild(imgMapa);
+        //       partidaDiv.appendChild(imgPerdedor);
+        //     }
 
-            container.appendChild(partidaDiv);
-          });
-        }
+        //     container.appendChild(partidaDiv);
+        //   });
+        // }
 
         carregarDados();
       } catch (error) {

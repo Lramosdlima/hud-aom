@@ -194,7 +194,7 @@
           ? "url('assets/interface2.png')"
           : "url('assets/interface.png')";
 
-        const getBandeira = (pais) => pais ? `bandeiras/${pais.toLowerCase()}.png` : '';
+        const getBandeira = (pais) => pais ? `assets/bandeiras/${pais.toLowerCase()}.png` : '';
 
         if (letreiro === '2') {
           document.getElementById('placar-1').textContent = dados.placar_2 || '0';
@@ -236,7 +236,7 @@
 
         document.getElementById('fase').textContent = dados.fase || '';
         document.getElementById('nome-mapa').textContent = dados.mapa || '';
-        document.getElementById('logo-campeonato').src = dados.logo_camp ? `campeonatos/${dados.logo_camp}.png` : '';
+        document.getElementById('logo-campeonato').src = dados.logo_camp ? `assets/campeonatos/${dados.logo_camp}.png` : '';
         document.getElementById('logo-streamer').src = dados.logo_streamer ? `assets/${dados.logo_streamer}.png` : '';
 
       } catch (error) {
