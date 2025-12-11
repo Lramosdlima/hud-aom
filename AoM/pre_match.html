@@ -50,7 +50,7 @@
       top: 20px;
       left: 50%;
       transform: translate(-50%, 0%);
-      width: 445px; 
+      width: 445px;
       height: auto;
       z-index: 10;
     }
@@ -198,7 +198,7 @@
       position: absolute;
       bottom: 58px;
       left: 730px;
-      width: 430px; 
+      width: 430px;
       height: auto;
       z-index: 10;
     }
@@ -329,12 +329,12 @@
   <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
   <img id="avatar-border-1" class="avatar-border" src="assets/moldura_azul.png" alt="Borda Azul">
   <img id="avatar-border-2" class="avatar-border" src="assets/moldura_vermelho.png" alt="Borda Vermelha">
-  <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
-  <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
+  <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul" onerror="this.src='assets/null.png'">
+  <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha" onerror="this.src='assets/null.png'">
   <img id="logo-campeonato" src="" alt="Logo Campeonato">
   <img id="placar-border" src="assets/draft/placar.png" alt="Borda Placar">
   <!-- <div id="proxima-partida">Próxima partida</div> -->
-  <img id="imagem-mapa" src="" alt="Imagem do Mapa">
+  <img id="imagem-mapa" src="" alt="Imagem do Mapa" onerror="this.src='assets/null.png'">
   <img id="mapa-border" src="assets/mapas-3d/base.png" alt="Borda Mapa">
   <img id="god-1" class="deus" src="" alt="Deus 1">
   <img id="god-2" class="deus" src="" alt="Deus 2">
@@ -359,6 +359,11 @@
         .replace(/\s+/g, '')
         .toLowerCase();
     };
+
+    function capitalize(nome) {
+      if (!nome) return '';
+      return nome.charAt(0).toUpperCase() + nome.slice(1);
+    }
 
     async function atualizarCampos() {
       try {
@@ -393,7 +398,8 @@
         document.getElementById('logo-campeonato').src = dados.logo_camp ? `assets/campeonatos/${dados.logo_camp}.png` : '';
 
         const nomeMapa = dados.mapa || '';
-        document.getElementById('fase').textContent = nomeMapa || '';
+
+        document.getElementById('fase').textContent = capitalize(nomeMapa) || '';
         // document.getElementById('nome-mapa').textContent = nomeMapa;
         document.getElementById('imagem-mapa').src = nomeMapa
           ? `assets/mapas-3d/${gerarNomeArquivo(nomeMapa)}.png`

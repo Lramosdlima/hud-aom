@@ -325,13 +325,13 @@
   <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
   <img id="avatar-border-1" class="avatar-border" src="assets/avatar-border-1.png" alt="Borda Azul">
   <img id="avatar-border-2" class="avatar-border" src="assets/avatar-border-2.png" alt="Borda Vermelha">
-  <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul">
-  <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha">
+  <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul" onerror="this.src='assets/null.png'" >
+  <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha" onerror="this.src='assets/null.png'">
   <img id="logo-campeonato" src="" alt="Logo Campeonato">
   <div id="proxima-partida">Próxima partida</div>
-  <img id="imagem-mapa" src="" alt="Imagem do Mapa">
-  <img id="god-1" class="deus" src="" alt="Deus 1">
-  <img id="god-2" class="deus" src="" alt="Deus 2">
+  <img id="imagem-mapa" src="" alt="Imagem do Mapa" onerror="this.src='assets/null.png'">
+  <img id="god-1" class="deus" src="" alt="Deus 1" onerror="this.src='assets/null.png'">
+  <img id="god-2" class="deus" src="" alt="Deus 2" onerror="this.src='assets/null.png'">
   <div id="nome-mapa"></div>
   <div class="resultados-partidas" id="resultados-partidas"></div>
 
@@ -353,6 +353,11 @@
         .replace(/\s+/g, '')
         .toLowerCase();
     };
+
+    function capitalize(nome) {
+      if (!nome) return '';
+      return nome.charAt(0).toUpperCase() + nome.slice(1);
+    }
 
     async function atualizarCampos() {
       try {
