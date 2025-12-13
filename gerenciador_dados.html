@@ -283,7 +283,7 @@
 
           <div style="margin-top: 10px; ">
             <input id="draftLink" type="text" placeholder="Link do draft de gods" style=" width: 70%; padding: 5px;">
-            <button onclick="importarDraftAoE2CM()" style="margin-top: 5px; margin-bottom: 8px;">Importar Gods</button>
+            <button onclick="importarDraftGods()" style="margin-top: 5px; margin-bottom: 8px;">Importar Gods</button>
           </div>
 
           <div style="margin-top: 10px;">
@@ -1458,7 +1458,7 @@
       });
     }
 
-    async function importarDraftAoE2CM() {
+    async function importarDraftGods() {
       const link = document.getElementById("draftLink").value.trim();
       if (!link) {
         customAlert("Cole o link do draft do aoe2cm.net antes de importar.", "Error");
