@@ -323,11 +323,6 @@
           style="width: 100%; padding: 5px;">
       </div>
 
-      <div style="margin-bottom: 10px;">
-        <label for="fase">Fase*</label><br>
-        <input type="text" id="fase" placeholder="Ex: Quartas de Final Winner - Md5" style="width: 100%; padding: 5px;">
-      </div>
-
       <div style="margin-bottom: 10px; display: flex;  align-items: center; gap: 10px;">
 
         <div style="display: flex; flex-direction: column; flex-grow: 2">
@@ -822,7 +817,6 @@
 
       // Restaurar campos básicos
       if (dados.logo_camp) document.getElementById("logo_camp").value = dados.logo_camp;
-      if (dados.fase) document.getElementById("fase").value = dados.fase;
       if (dados.mapa) document.getElementById("mapaSelect").value = dados.mapa;
 
       if (dados.letreiro) document.getElementById("letreiro").value = dados.letreiro;
@@ -1244,7 +1238,6 @@
       dados.push('interface= 1');
       dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
       dados.push(`logo_camp= ${document.getElementById('logo_camp').value}`);
-      dados.push(`fase= ${document.getElementById('fase').value}`);
 
       dados.push(`mapa= ${document.getElementById('mapaSelect').value}`);
       const g1 = document.getElementById('versusSelect1').value || "null_1";
@@ -1291,7 +1284,6 @@
       // Restaura os principais campos
       if (mapa.letreiro) document.getElementById("letreiro").value = mapa.letreiro;
       if (mapa.logo_camp) document.getElementById("logo_camp").value = mapa.logo_camp;
-      if (mapa.fase) document.getElementById("fase").value = mapa.fase;
       if (mapa.mapa) document.getElementById("mapaSelect").value = mapa.mapa;
 
       if (mapa.jogador_1) document.getElementById("jogador1").value = mapa.jogador_1;
@@ -1319,7 +1311,6 @@
         const camposObrigatorios = [
           { id: 'letreiro', nome: 'Letreiro' },
           { id: 'logo_camp', nome: 'Campeonato' },
-          { id: 'fase', nome: 'Fase' },
           { id: 'jogador1', nome: 'Jogador 1' },
           { id: 'cor1', nome: 'Cor Esquerda' },
           { id: 'jogador2', nome: 'Jogador 2' },
@@ -1386,8 +1377,7 @@
         dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
 
         dados.push(`\nlogo_camp= ${document.getElementById('logo_camp').value}`);
-        dados.push('logo_streamer= logo-julian-rda')
-        dados.push(`fase= ${document.getElementById('fase').value}`);
+        dados.push('logo_streamer= logo-julian-rda');
 
         dados.push(`\nmapa= ${document.getElementById('mapaSelect').value}`);
         const g1 = document.getElementById('versusSelect1').value || "null_1";
@@ -1495,12 +1485,12 @@
         const salvos = localStorage.getItem("dadosInterface");
         let linhas = salvos ? JSON.parse(salvos) : [];
 
-        // Preserva apenas logo_camp e fase
+        // Preserva apenas logo_camp
         const preservados = {};
         linhas.forEach(linha => {
           const [chave, valor] = linha.split('=');
           if (chave && valor !== undefined) {
-            if (chave.trim() === 'logo_camp' || chave.trim() === 'fase') {
+            if (chave.trim() === 'logo_camp') {
               preservados[chave.trim()] = valor.trim();
             }
           }
@@ -1512,10 +1502,9 @@
         // Grava os campos preservados de volta
         const novasLinhas = [];
         if (preservados.logo_camp) novasLinhas.push(`logo_camp= ${preservados.logo_camp}`);
-        if (preservados.fase) novasLinhas.push(`fase= ${preservados.fase}`);
         localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
 
-        // Limpa os campos visualmente (exceto logo_camp e fase)
+        // Limpa os campos visualmente (exceto logo_camp, que foi preservado)
         document.getElementById("mapaSelect").value = "null";
         document.getElementById("versusSelect1").value = "null";
         document.getElementById("versusSelect2").value = "null";
