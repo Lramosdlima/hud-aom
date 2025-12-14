@@ -112,6 +112,57 @@
       font-size: 150%;
     }
 
+    .resultados-partidas {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      font-weight: lighter;
+      color: white;
+      font-size: 20px;
+    }
+
+    .partida {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .deus-img {
+      width: 55px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .mapa-img {
+      width: 55px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cinza {
+      filter: grayscale(90%);
+    }
+
+    .nome {
+      margin-right: 2px;
+    }
+
+    .partida.esquerda {
+      padding: 2px 16px;
+      border-radius: 6px;
+      background: linear-gradient(to right, rgba(25, 25, 85, 0.7) 1%, transparent 100%);
+    }
+
+    .partida.direita {
+      justify-content: flex-end;
+      padding: 2px 16px;
+      border-radius: 6px;
+      background: linear-gradient(to left, rgba(116, 23, 23, 0.7) 1%, transparent 100%);
+    }
+
     .versusSelect1 {
       border-radius: 5px;
       padding: 5px;
@@ -476,6 +527,7 @@
           <span id="placar1">0</span>
           <span id="placar2">0</span>
         </div>
+        <div class="resultados-partidas" id="resultados-partidas"></div>
       </div>
     </div>
   </div>
@@ -773,7 +825,6 @@
       if (dados.fase) document.getElementById("fase").value = dados.fase;
       if (dados.mapa) document.getElementById("mapaSelect").value = dados.mapa;
 
-      if (dados.interface) document.getElementById("interface").value = dados.interface;
       if (dados.letreiro) document.getElementById("letreiro").value = dados.letreiro;
       if (dados.flagE) {
         const cor1 = dados.flagE.replace('flagE_', '');
@@ -829,6 +880,8 @@
 
       // NOVO: Aplica as cores de fundo
       trocarCorDeFundo();
+
+      exibirPartidas(dados);
     }
 
     window.onload = () => {
@@ -906,24 +959,6 @@
         document.body.removeChild(modal);
       };
     };
-
-    function atualizarImagem(selectId, imgId) {
-      const cor = document.getElementById(selectId).value;
-      const img = document.getElementById(imgId);
-
-      if (!img) return;
-
-      // Define tipo com base no selectId (não no imgId)
-      let tipo = '';
-      if (imgId === 'cor1') tipo = 'flagE';
-      else if (imgId === 'cor2') tipo = 'flagD';
-
-      if (cor) {
-        img.src = `AoM/assets/Flags/${tipo}_${cor}.png`;
-      } else {
-        img.src = "";
-      }
-    }
 
     function atualizarBandeira(selectId, imgId) {
       const pais = document.getElementById(selectId).value;
@@ -1013,6 +1048,83 @@
       }
     }
 
+    function exibirPartidas(dados) {
+      const container = document.getElementById('resultados-partidas');
+      container.innerHTML = '';
+
+      if (!dados) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let partidas = [];
+      for (let i = 1; i <= 99; i++) {
+        const key = `partida${i}`;
+        if (dados[key]) partidas.push(dados[key]);
+      }
+
+      if (partidas.length > 6) {
+        partidas = partidas.slice(-6);
+      }
+
+      partidas.forEach(linha => {
+        const valores = linha.split(',');
+        if (valores.length < 4) return;
+
+        const [vencInfo, perdDeus, mapa, vencedorValor] = valores.map(s => s.trim());
+        if (!vencInfo || !perdDeus || !mapa || !vencedorValor) return;
+
+        // Remove o número da partida (antes do nome)
+        const vencInfoLimpo = vencInfo.replace(/^\d+\.\s*/, '');
+        const [vencNome, vencDeus] = vencInfoLimpo.split(':');
+        if (!vencNome || !vencDeus) return;
+
+        const partidaDiv = document.createElement('div');
+        partidaDiv.className = 'partida';
+        const cor1 = document.getElementById('cor1').value;
+        const cor2 = document.getElementById('cor2').value;
+
+        if (vencedorValor === "B") {
+          partidaDiv.classList.add("direita");
+          partidaDiv.style.background = `linear-gradient(to right, ${cor1} 1%, transparent 100%)`;
+        } else {
+          partidaDiv.classList.add("esquerda");
+          partidaDiv.style.background = `linear-gradient(to left, ${cor2} 1%, transparent 100%)`;
+        }
+
+        const nomeSpan = document.createElement('span');
+        nomeSpan.className = 'nome';
+        nomeSpan.textContent = vencNome;
+
+        const imgVencedor = document.createElement('img');
+        imgVencedor.className = 'deus-img';
+        imgVencedor.src = `AoM/assets/gods/${vencDeus.toLowerCase()}.png`;
+
+        const imgMapa = document.createElement('img');
+        imgMapa.className = 'mapa-img';
+        imgMapa.src = `AoM/assets/mapas/${mapa.toLowerCase().replace(/\s+/g, '')}.png`;
+
+        const imgPerdedor = document.createElement('img');
+        imgPerdedor.className = 'deus-img cinza';
+        imgPerdedor.src = `AoM/assets/gods/${perdDeus.toLowerCase()}.png`;
+
+        if (vencedorValor === "B") {
+          partidaDiv.appendChild(imgPerdedor);
+          partidaDiv.appendChild(imgMapa);
+          partidaDiv.appendChild(imgVencedor);
+          partidaDiv.appendChild(nomeSpan);
+        } else {
+          partidaDiv.appendChild(nomeSpan);
+          partidaDiv.appendChild(imgVencedor);
+          partidaDiv.appendChild(imgMapa);
+          partidaDiv.appendChild(imgPerdedor);
+        }
+
+        container.appendChild(partidaDiv);
+      });
+    }
+
+    // SALVAR RESULTADO PARTIDA
     function registrarResultado(vencedorId) {
       const mapa = document.getElementById("mapaSelect").value;
       const g1 = document.getElementById("versusSelect1").value.replace("_1", "");
@@ -1084,6 +1196,8 @@
 
         localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
 
+        atualizarTodosCampos(JSON.stringify(novasLinhas));
+
         const blob = new Blob([novasLinhas.join("\n")], { type: "text/plain" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
@@ -1127,7 +1241,7 @@
         return [...picks, ...bans];
       }
 
-      dados.push(`interface= ${document.getElementById('interface').value}`);
+      dados.push('interface= 1');
       dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
       dados.push(`logo_camp= ${document.getElementById('logo_camp').value}`);
       dados.push(`fase= ${document.getElementById('fase').value}`);
@@ -1175,7 +1289,6 @@
       });
 
       // Restaura os principais campos
-      if (mapa.interface) document.getElementById("interface").value = mapa.interface;
       if (mapa.letreiro) document.getElementById("letreiro").value = mapa.letreiro;
       if (mapa.logo_camp) document.getElementById("logo_camp").value = mapa.logo_camp;
       if (mapa.fase) document.getElementById("fase").value = mapa.fase;
@@ -1301,7 +1414,7 @@
 
         dados.push('\nparticulas= sim');
 
-        dados.push(`\ninterface= ${document.getElementById('interface')?.value || '1'}`);
+        dados.push(`\ninterface= 1`);
 
         // Recupera partidas anteriores do localStorage
         const salvosAntigos = localStorage.getItem("dadosInterface");
@@ -1313,6 +1426,8 @@
 
         // Atualiza localStorage e arquivo
         localStorage.setItem("dadosInterface", JSON.stringify(dados));
+
+        exibirPartidas(dados);
 
         const blob = new Blob([dados.join("\n")], { type: "text/plain" });
         const link = document.createElement("a");
@@ -1401,9 +1516,6 @@
         localStorage.setItem("dadosInterface", JSON.stringify(novasLinhas));
 
         // Limpa os campos visualmente (exceto logo_camp e fase)
-        const interface = document.getElementById("interface");
-        if (interface) interface.value = "1";
-
         document.getElementById("mapaSelect").value = "null";
         document.getElementById("versusSelect1").value = "null";
         document.getElementById("versusSelect2").value = "null";
@@ -1423,6 +1535,7 @@
         document.getElementById("cor1").value = "azul";
         document.getElementById("cor2").value = "vermelho";
         trocarCorDeFundo();
+        exibirPartidas();
 
         // Limpa os drafts
         limparMarcacoes(1);
@@ -1876,6 +1989,23 @@
       if (btnVitoria2El && colorMap[cor2]) {
         btnVitoria2El.style.backgroundColor = colorMap[cor2];
       }
+
+      const partidasEsquerda = document.querySelectorAll('.partida.esquerda');
+      const partidasDireita = document.querySelectorAll('.partida.direita');
+
+      if (partidasEsquerda && colorMap[cor1]) {
+        const background1 = `linear-gradient(to left, ${colorMap[cor1]} 1%, transparent 100%)`;
+        partidasEsquerda.forEach(partida => {
+          partida.style.background = background1;
+        })
+      }
+      if (partidasDireita && colorMap[cor2]) {
+        const background2 = `linear-gradient(to right, ${colorMap[cor2]} 1%, transparent 100%)`;
+        partidasDireita.forEach(partida => {
+          partida.style.background = background2;
+        })
+      }
+
     }
 
     function captainsLink() {
