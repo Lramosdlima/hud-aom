@@ -62,37 +62,38 @@
     }
 
     .avatar {
-      width: 40px;
+      width: 24px;
       height: auto;
       position: absolute;
-      top: 8px;
-      border-radius: 50%;
+      top: 51px;
+      border-radius: 20%;
+      z-index: 12;
     }
 
     #avatar-1 {
-      left: 293px;
+      left: 358px;
     }
 
     #avatar-2 {
-      right: 293px;
+      right: 358px;
     }
 
     .bandeira {
       width: 30px;
       height: auto;
       position: absolute;
-      top: 66.1px;
+      top: 69px;
       transform: translateY(-50%);
       z-index: 12;
       border-radius: 8px;
     }
 
     #bandeira-1 {
-      left: 358px;
+      left: 308px;
     }
 
     #bandeira-2 {
-      right: 358px;
+      right: 308px;
     }
 
     #fase {
@@ -162,8 +163,8 @@
     <div class="campo-nome" id="jogador-2"></div>
     <img id="avatar-1" class="avatar" src="" alt="Avatar Azul" onerror="this.src='assets/null.png'">
     <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha" onerror="this.src='assets/null.png'">
-    <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul" onerror="this.src='assets/null.png'">
-    <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha" onerror="this.src='assets/null.png'">
+    <!-- <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul" onerror="this.src='assets/null.png'">
+    <img id="bandeira-2" class="bandeira" src="" alt="Bandeira Vermelha" onerror="this.src='assets/null.png'"> -->
     <img id="logo-campeonato" src="" alt="Logo Campeonato" onerror="this.src='assets/null.png'">
     <div id="nome-mapa"></div>
     <img id="logo-streamer" src="" alt="Logo Streamer" onerror="this.src='assets/null.png'">
@@ -210,8 +211,8 @@
             document.getElementById('avatar-1').style.display = 'none';
             document.getElementById('avatar-2').style.display = 'none';
           }
-          document.getElementById('bandeira-1').src = getBandeira(dados.pais_2);
-          document.getElementById('bandeira-2').src = getBandeira(dados.pais_1);
+          // document.getElementById('bandeira-1').src = getBandeira(dados.pais_2);
+          // document.getElementById('bandeira-2').src = getBandeira(dados.pais_1);
         } else {
           document.getElementById('placar-1').textContent = dados.placar_1 || '0';
           document.getElementById('placar-2').textContent = dados.placar_2 || '0';
@@ -226,8 +227,8 @@
             document.getElementById('avatar-1').style.display = 'none';
             document.getElementById('avatar-2').style.display = 'none';
           }
-          document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
-          document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
+          // document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
+          // document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
         }
 
         // Carregar flags coloridas para a HUD
