@@ -2,10 +2,10 @@ letreiro= 1
 interface= 1
 logo_camp= Torneio de verao
 logo_streamer= logo-julian-rda
-fase= a
+fase= 
 
-mapa= ra_2,urano_1
-gods= oranos_2,urano_1
+mapa= 
+gods= 
 mostrar_avatar= sim
 
 placar_1= 0
