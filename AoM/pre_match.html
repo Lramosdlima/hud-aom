@@ -325,8 +325,8 @@
   <div class="campo-placar" id="placar-2">0</div>
   <div class="campo-nome" id="jogador-1"></div>
   <div class="campo-nome" id="jogador-2"></div>
-  <img id="avatar-1" class="avatar" src="" alt="Avatar Azul">
-  <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha">
+  <img id="avatar-1" class="avatar" src="" alt="Avatar Azul" onerror="this.src='assets/campeonatos/sem_avatar.png'">
+  <img id="avatar-2" class="avatar" src="" alt="Avatar Vermelha"  onerror="this.src='assets/campeonatos/sem_avatar.png'">
   <img id="avatar-border-1" class="avatar-border" src="assets/moldura_azul.png" alt="Borda Azul">
   <img id="avatar-border-2" class="avatar-border" src="assets/moldura_vermelho.png" alt="Borda Vermelha">
   <img id="bandeira-1" class="bandeira" src="" alt="Bandeira Azul" onerror="this.src='assets/null.png'">
@@ -390,8 +390,8 @@
         document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
         document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
 
-        document.getElementById('avatar-1').src = dados.avatar_1 || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg';
-        document.getElementById('avatar-2').src = dados.avatar_2 || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg';
+        document.getElementById('avatar-1').src = dados.avatar_1 || 'assets/campeonatos/sem_avatar.png';
+        document.getElementById('avatar-2').src = dados.avatar_2 || 'assets/campeonatos/sem_avatar.png';
         document.getElementById('bandeira-1').src = getBandeira(dados.pais_1);
         document.getElementById('bandeira-2').src = getBandeira(dados.pais_2);
         // document.getElementById('fase').textContent = dados.fase || '';
