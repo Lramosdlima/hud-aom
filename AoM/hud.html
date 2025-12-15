@@ -202,8 +202,8 @@
           document.getElementById('jogador-1').textContent = dados.jogador_2 || '';
           document.getElementById('jogador-2').textContent = dados.jogador_1 || '';
           if (mostrarAvatar === 'sim') {
-            document.getElementById('avatar-1').src = dados.avatar_2 || '';
-            document.getElementById('avatar-2').src = dados.avatar_1 || '';
+            document.getElementById('avatar-1').src = dados.avatar_2 || 'assets/campeonatos/sem_avatar.png';
+            document.getElementById('avatar-2').src = dados.avatar_1 || 'assets/campeonatos/sem_avatar.png';
             document.getElementById('avatar-1').style.display = 'block';
             document.getElementById('avatar-2').style.display = 'block';
           } else {
@@ -218,8 +218,8 @@
           document.getElementById('jogador-1').textContent = dados.jogador_1 || '';
           document.getElementById('jogador-2').textContent = dados.jogador_2 || '';
           if (mostrarAvatar === 'sim') {
-            document.getElementById('avatar-1').src = dados.avatar_1 || '';
-            document.getElementById('avatar-2').src = dados.avatar_2 || '';
+            document.getElementById('avatar-1').src = dados.avatar_1 || 'assets/campeonatos/sem_avatar.png';
+            document.getElementById('avatar-2').src = dados.avatar_2 || 'assets/campeonatos/sem_avatar.png';
             document.getElementById('avatar-1').style.display = 'block';
             document.getElementById('avatar-2').style.display = 'block';
           } else {
