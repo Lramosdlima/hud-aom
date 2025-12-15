@@ -190,9 +190,9 @@
         const mostrarAvatar = dados.mostrar_avatar || 'sim';
 
         const layout = document.getElementById('layout');
-        layout.style.backgroundImage = interfaceSelecionada === '2'
-          ? "url('assets/interface2.png')"
-          : "url('assets/interface.png')";
+        layout.style.backgroundImage = interfaceSelecionada === '1'
+          ? "url('assets/interface.png')"
+          : `url('assets/interface${interfaceSelecionada}.png')`;
 
         const getBandeira = (pais) => pais ? `assets/bandeiras/${pais.toLowerCase()}.png` : '';
 
