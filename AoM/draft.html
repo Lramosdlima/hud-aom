@@ -354,6 +354,16 @@
         .toLowerCase();
     };
 
+    const gerarNomeArquivoGod = (nome) => {
+      if (nome.includes('_p')) {
+        return `${gerarNomeArquivo(nome.split('_')[0])}_pick`;
+      }
+      if (nome.includes('_b')) {
+        return `${gerarNomeArquivo(nome.split('_')[0])}_ban`;
+      }
+      return gerarNomeArquivo(nome);
+    }
+
     function capitalize(nome) {
       if (!nome) return '';
       return nome.charAt(0).toUpperCase() + nome.slice(1);
@@ -421,7 +431,8 @@
 
           lista.forEach(nome => {
             const img = document.createElement('img');
-            img.src = `assets/${pasta}/${gerarNomeArquivo(nome)}.png`;
+            const nomeArquivo = isMap ? gerarNomeArquivo(nome) : gerarNomeArquivoGod(nome);
+            img.src = `assets/${pasta}/${nomeArquivo}.png`;
             container.appendChild(img);
           });
         };
