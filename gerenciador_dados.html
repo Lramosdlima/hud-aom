@@ -409,7 +409,7 @@
       <div style="margin-bottom: 10px;">
         <label for="mapaSelect">Mapa</label><br>
         <select id="mapaSelect" style="width: 100%; padding: 5px;">
-          <option value="null" title="Selecione um Mapa">Selecione um Mapa</option>
+          <!-- <option value="null" title="Selecione um Mapa">Selecione um Mapa</option>
           <option value="Random" title="Mapa aleatório">Random</option>
           <option value="Acropolis" title="Acropolis">Acropolis</option>
           <option value="Alfheim" title="Alfheim">Alfheim</option>
@@ -460,7 +460,28 @@
           <option value="Valley of Kings" title="Valley of Kings">Valley of Kings</option>
           <option value="Vindlandsaga" title="Vindlandsaga">Vindlandsaga</option>
           <option value="Watering Hole" title="Watering Hole">Watering Hole</option>
-          <option value="Yellow River" title="Yellow River">Yellow River</option>
+          <option value="Yellow River" title="Yellow River">Yellow River</option> -->
+
+          <!-- TORNEIO DE VERAO MAPAS -->
+
+          <option value="null" title="Selecione um Mapa">Selecione um Mapa</option>
+          <option value="Air" title="Air">Air</option>
+          <option value="Alfheim" title="Alfheim">Alfheim</option>
+          <option value="Buraco dAgua" title="Buraco dAgua">Buraco d'água</option>
+          <option value="Elísio" title="Elísio">Elísio</option>
+          <option value="Estepe" title="Estepe">Estepe</option>
+          <option value="Gize" title="Gize">Gizé</option>
+          <option value="Kii" title="Kii">Kii</option>
+          <option value="Lagoa Azul" title="Lagoa Azul">Lagoa Azul</option>
+          <option value="Lago Fantasma" title="Lago Fantasma">Lago Fantasma</option>
+          <option value="Mediterraneo" title="Mediterraneo">Mediterraneo</option>
+          <option value="Megalopole" title="Megalopole">Megalopole</option>
+          <option value="Pantano" title="Pantano">Pântano</option>
+          <option value="Savana" title="Savana">Savana</option>
+          <option value="Oasis" title="Oasis">Oásis</option>
+          <option value="Tundra" title="Tundra">Tundra</option>
+          <option value="Vale dos Reis" title="Vale dos Reis">Vale dos Reis</option>
+          <option value="Vaus do Nilo" title="Vaus do Nilo">Vaus do Nilo</option>
         </select>
       </div>
 
@@ -476,7 +497,7 @@
             <option value="kronos_1">Cronos</option>
             <option value="freyr_1">Frey</option>
             <option value="fuxi_1">Fuxi</option>
-            <option value="Gaia_1">Gaia</option>
+            <option value="gaia_1">Gaia</option>
             <option value="hades_1">Hades</option>
             <option value="isis_1">Isis</option>
             <option value="loki_1">Loki</option>
@@ -498,7 +519,7 @@
             <option value="kronos_2">Cronos</option>
             <option value="freyr_2">Frey</option>
             <option value="fuxi_2">Fuxi</option>
-            <option value="Gaia_2">Gaia</option>
+            <option value="gaia_2">Gaia</option>
             <option value="hades_2">Hades</option>
             <option value="isis_2">Isis</option>
             <option value="loki_2">Loki</option>
@@ -796,7 +817,10 @@
 
   <script>
     const gods = ['poseidon', 'zeus', 'hades', 'ra', 'isis', 'set', 'thor', 'odin', 'loki', 'freyr', 'kronos', 'oranos', 'gaia', 'nuwa', 'fuxi', 'shennong', 'amaterasu', 'tsukuyomi', 'susanoo'];
-    const maps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
+    // const maps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
+
+    // MAPAS DO TORNEIO DE VERAO 
+    const maps = ['air', 'alfheim', 'lagoaazul', 'elisio', 'lagofantasma', 'gize', 'kii', 'pantano', 'mediterraneo', 'megalopole', 'vausdonilo', 'oasis', 'estepe', 'tundra', 'valedosreis', 'buracodagua'];
 
     function atualizarTodosCampos(salvos) {
       const linhas = JSON.parse(salvos);
@@ -1928,6 +1952,8 @@
 
         document.body.removeChild(loadingModal);
 
+        console.log("Draft de Mapas importado:", draft);
+
         // ---- Nomes da API
         const nomeHostAPI = draft.nameHost || "Jogador HOST (API)";
         const nomeGuestAPI = draft.nameGuest || "Jogador GUEST (API)";
@@ -1943,8 +1969,9 @@
         const normalizarNome = (str) =>
           str ? String(str)
             .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, "")
-            .toLowerCase() : "";
+            .replace(/[^a-zA-Z0-9]/g, "")
+            .toLowerCase()
+            : "";
 
         const normV1 = normalizarNome(v1);
         const normV2 = normalizarNome(v2);
@@ -2017,9 +2044,15 @@
             const p = ev.player;
             const t = (ev.actionType || "").toLowerCase();
             const chosen = ev.chosenOptionId;
-            if (!chosen || p === "NONE") return;
 
+            if (!chosen) return;
             const mapa = normalizarNome(chosen);
+
+            if (p === "NONE" && t === "pick") {
+              const mapaSelect = document.getElementById("mapaSelect");
+              if (mapaSelect) mapaSelect.value = chosen;
+            }
+
             let target = p === "HOST" ? hostPlayer : guestPlayer;
 
             if (t === "pick") picksPorJogador[target].push(`${mapa}_p`);
