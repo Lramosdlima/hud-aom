@@ -199,14 +199,14 @@
       width: 48%;
       padding: 15px;
       border-radius: 8px;
-      background-color:#1d1d4a;
+      background-color: #1d1d4a;
     }
 
     .player2 {
       width: 48%;
       padding: 15px;
       border-radius: 8px;
-      background-color:#541b1b;
+      background-color: #541b1b;
     }
 
     .nome-pais {
@@ -318,10 +318,23 @@
     <div class="info" style="margin-bottom: 20px;">
       <div class="section-title">Informações do Campeonato</div>
 
-      <div style="margin-bottom: 10px;">
-        <label for="logo_camp">Logo do Campeonato*</label><br>
-        <input type="text" id="logo_camp" placeholder="Nome do PNG do Campeonato na pasta"
-          style="width: 100%; padding: 5px;">
+      <div style="margin-bottom: 10px; text-align: center;">
+        <label for="logo_camp" style="display: block; text-align: left;">Logo do Campeonato*</label>
+
+        <input type="hidden" id="logo_camp" value="">
+
+        <input type="file" id="inputLogoCamp" accept="image/png" onchange="processarLogoCamp(event)"
+          style="display: none;">
+
+        <button type="button" id="btnLogoCamp" onclick="document.getElementById('inputLogoCamp').click()"
+          style="width: 100%; padding: 8px; cursor: pointer; background-color: #555; color: white; border: 1px solid #777; border-radius: 4px; margin-bottom: 10px;">
+          Carregar Logo
+        </button>
+
+        <div id="previewContainer"
+          style="display: none; justify-content: center; align-items: center; background: #222; padding: 10px; border-radius: 4px;">
+          <img id="logoPreview" src="" alt="Preview" style="max-height: 50px; max-width: 100%; object-fit: contain;">
+        </div>
       </div>
 
       <div style="margin-bottom: 10px; display: flex;  align-items: center; gap: 10px;">
@@ -677,7 +690,13 @@
         <div class="section-title">Gods</div>
         <div class="item-grid god-grid" data-jogador="1"></div>
 
-        <div class="section-title">Mapas</div>
+        <div class="section-title">
+          <select class="filtro-mapas-grid" data-jogador="1" onchange="atualizarGridMapas(1)"
+            style="background: transparent; color: white; border: none; font-weight: bold; font-family: inherit; font-size: inherit; cursor: pointer; text-align: center;">
+            <option style="color: black" value="torneio" selected>Mapas do Torneio de Verão</option>
+            <option style="color: black" value="todos">Todos os Mapas</option>
+          </select>
+        </div>
         <div class="item-grid map-grid" data-jogador="1"></div>
 
 
@@ -809,7 +828,13 @@
         <div class="section-title">Gods</div>
         <div class="item-grid god-grid" data-jogador="2"></div>
 
-        <div class="section-title">Mapas</div>
+        <div class="section-title">
+          <select class="filtro-mapas-grid" data-jogador="2" onchange="atualizarGridMapas(2)"
+            style="background: transparent; color: white; border: none; font-weight: bold; font-family: inherit; font-size: inherit; cursor: pointer; text-align: center;">
+            <option style="color: black" value="torneio" selected>Mapas do Torneio de Verão</option>
+            <option style="color: black" value="todos">Todos os Mapas</option>
+          </select>
+        </div>
         <div class="item-grid map-grid" data-jogador="2"></div>
       </div>
     </div>
@@ -817,11 +842,67 @@
 
   <script>
     const gods = ['poseidon', 'zeus', 'hades', 'ra', 'isis', 'set', 'thor', 'odin', 'loki', 'freyr', 'kronos', 'oranos', 'gaia', 'nuwa', 'fuxi', 'shennong', 'amaterasu', 'tsukuyomi', 'susanoo'];
-    // const maps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
 
-    // MAPAS DO TORNEIO DE VERAO 
-    const maps = ['alfheim', 'air', 'buracodagua', 'elisio', 'estepe', 'gize',  'kii', 'lagofantasma', 'lagoaazul',  'mediterraneo', 'megalopole',  'oasis', 'pantano', 'savana', 'tundra', 'valedosreis',  'vausdonilo'];
+    const allMaps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
 
+    const summerTournamentMaps = ['alfheim', 'air', 'buracodagua', 'elisio', 'estepe', 'gize', 'kii', 'lagofantasma', 'lagoaazul', 'mediterraneo', 'megalopole', 'oasis', 'pantano', 'savana', 'tundra', 'valedosreis', 'vausdonilo'];
+
+    // Mantemos a variável 'maps' para compatibilidade com o restante do código de carregamento de ícones
+    let maps = [...summerTournamentMaps];
+
+    function atualizarGridMapas(jogador) {
+      const filtro = document.querySelector(`.filtro-mapas-grid[data-jogador="${jogador}"]`).value;
+      const container = document.querySelector(`.map-grid[data-jogador="${jogador}"]`);
+      const listaParaUsar = filtro === 'torneio' ? summerTournamentMaps : allMaps;
+
+      // Limpa a grade atual
+      container.innerHTML = '';
+
+      // Recarrega os itens baseados na lista selecionada
+      listaParaUsar.forEach(nome => {
+        const img = document.createElement('img');
+        img.src = `AoM/assets/mapas/${nome}.png`;
+        img.alt = nome;
+        img.dataset.nome = nome;
+        img.dataset.estado = '';
+        img.classList.add('item-img');
+        img.onclick = () => { alternarEstadoImagem(img, 'pick', 'mapas'); };
+        img.oncontextmenu = (e) => {
+          e.preventDefault();
+          alternarEstadoImagem(img, 'ban', 'mapas');
+        };
+        container.appendChild(img);
+      });
+    }
+
+    function processarLogoCamp(event) {
+      const arquivo = event.target.files[0];
+      const botao = document.getElementById('btnLogoCamp');
+      const inputOculto = document.getElementById('logo_camp');
+      const previewImg = document.getElementById('logoPreview');
+      const previewContainer = document.getElementById('previewContainer');
+
+      if (arquivo) {
+        // 1. Pega o nome sem extensão e atualiza o sistema
+        const nomeSemExtensao = arquivo.name.replace(/\.[^/.]+$/, "");
+        inputOculto.value = nomeSemExtensao;
+
+        // 2. Atualiza o texto do botão
+        botao.innerText = "Logo: " + nomeSemExtensao;
+        botao.style.backgroundColor = "#2e7d32";
+
+        // 3. Gera a prévia da imagem
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImg.src = e.target.result; // Define o src da imagem como o conteúdo do arquivo
+          previewContainer.style.display = "flex"; // Mostra o container
+        };
+        reader.readAsDataURL(arquivo);
+
+        // Limpa o input file
+        event.target.value = '';
+      }
+    }
     function atualizarTodosCampos(salvos) {
       const linhas = JSON.parse(salvos);
       let dados = {};
@@ -909,6 +990,7 @@
       carregarItens('god', 2);
       carregarItens('map', 1);
       carregarItens('map', 2);
+      atualizarSelectMapas();
 
       // Restaurar dados do localStorage, se houver
       const salvos = localStorage.getItem("dadosInterface");
@@ -1426,35 +1508,43 @@
 
     // === Carregar dados do localStorage ao abrir a página ===
     window.addEventListener("DOMContentLoaded", () => {
-      // Já está sendo feito no window.onload(), mantendo a estrutura existente
-      // Apenas adicionando as chamadas de atualização de bandeira e avatar.
-
       const dadosSalvos = localStorage.getItem("dadosInterface");
       if (!dadosSalvos) return;
 
       const linhas = JSON.parse(dadosSalvos);
       const mapa = {};
 
-      // Converte o array salvo (ex: ["letreiro= player 1 | player 2", ...]) em chave/valor
       linhas.forEach(linha => {
         const [chave, valor] = linha.split("=").map(s => s.trim());
         mapa[chave] = valor;
       });
 
-      // Restaura os principais campos
+      // --- Restaura os principais campos ---
       if (mapa.letreiro) document.getElementById("letreiro").value = mapa.letreiro;
-      if (mapa.logo_camp) document.getElementById("logo_camp").value = mapa.logo_camp;
-      if (mapa.mapa) document.getElementById("mapaSelect").value = mapa.mapa;
 
+      // ATUALIZAÇÃO LOGO: Restaura o valor oculto e o texto do botão
+      if (mapa.logo_camp) {
+        document.getElementById("logo_camp").value = mapa.logo_camp;
+        const btn = document.getElementById("btnLogoCamp");
+        if (btn) btn.innerText = "Logo: " + mapa.logo_camp;
+        // Nota: A imagem real (preview) não volta aqui porque o navegador não tem acesso 
+        // ao caminho do seu computador por segurança, mas o nome do arquivo estará lá.
+      }
+
+      if (mapa.mapa) document.getElementById("mapaSelect").value = mapa.mapa;
       if (mapa.jogador_1) document.getElementById("jogador1").value = mapa.jogador_1;
       if (mapa.jogador_2) document.getElementById("jogador2").value = mapa.jogador_2;
       if (mapa.pais_1) document.getElementById("pais1").value = mapa.pais_1;
       if (mapa.pais_2) document.getElementById("pais2").value = mapa.pais_2;
-
       if (mapa.avatar_1) document.getElementById("avatar1").textContent = mapa.avatar_1;
       if (mapa.avatar_2) document.getElementById("avatar2").textContent = mapa.avatar_2;
 
-      // Atualiza letreiro visualmente
+      // ATUALIZAÇÃO MAPAS: Garante que as grids de mapas sejam desenhadas
+      if (typeof atualizarGridMapas === "function") {
+        atualizarGridMapas(1);
+        atualizarGridMapas(2);
+      }
+
       if (typeof atualizarLetreiroComNomes === "function") {
         atualizarLetreiroComNomes();
       }
@@ -1593,48 +1683,60 @@
     }
 
     function processarArquivo(event) {
-      const input = event.target; // O input que disparou o evento
+      const input = event.target;
       const arquivo = input.files[0];
 
-      if (!arquivo) {
-        console.error("Nenhum arquivo selecionado.");
-        return;
-      }
+      if (!arquivo) return;
 
       const reader = new FileReader();
-
       reader.onload = function (e) {
         const conteudo = e.target.result;
-
-        // Salva os dados no localStorage
         const dados = [];
         const linhas = conteudo.split('\n');
+        const mapaCarregado = {};
+
         linhas.forEach(linha => {
-          const [chave, valor] = linha.split('=');
-          if (chave && valor !== undefined) {
-            dados.push(`${chave.trim()}=${valor.trim()}`);
+          const partes = linha.split('=');
+          if (partes.length >= 2) {
+            const chave = partes[0].trim();
+            const valor = partes[1].trim();
+            dados.push(`${chave}=${valor}`);
+            mapaCarregado[chave] = valor;
           }
         });
+
         localStorage.setItem("dadosInterface", JSON.stringify(dados));
 
-        // Atualiza os campos do formulário
+        // Atualiza os campos de texto comuns
         atualizarTodosCampos(JSON.stringify(dados));
+
+        // ATUALIZAÇÃO LOGO: Atualiza o botão com o nome vindo do arquivo carregado
+        if (mapaCarregado.logo_camp) {
+          const btn = document.getElementById("btnLogoCamp");
+          if (btn) btn.innerText = "Logo: " + mapaCarregado.logo_camp;
+          // Escondemos o preview pois o arquivo de texto não contém a imagem real
+          document.getElementById("previewContainer").style.display = "none";
+        }
+
+        // ATUALIZAÇÃO MAPAS: Recarrega as grades visuais
+        // Se você mudou para 'atualizarGridMapas', chame elas aqui:
+        if (typeof atualizarGridMapas === "function") {
+          atualizarGridMapas(1);
+          atualizarGridMapas(2);
+        } else {
+          // Caso ainda use o nome antigo da função:
+          carregarItens('map', 1);
+          carregarItens('map', 2);
+        }
 
         carregarItens('god', 1);
         carregarItens('god', 2);
-        carregarItens('map', 1);
-        carregarItens('map', 2);
+
         atualizarNomesDosBotoes();
         atualizarLetreiroComNomes();
 
         customAlert("Dados carregados com sucesso!", 'Sucesso');
-
-        // Opcional: Limpar o input para permitir o carregamento do mesmo arquivo novamente
         input.value = '';
-      };
-
-      reader.onerror = function () {
-        customAlert("Erro ao ler o arquivo.", 'Error');
       };
 
       reader.readAsText(arquivo);
