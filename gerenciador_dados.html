@@ -507,6 +507,7 @@
           <select id="versusSelect1" style="width: 100%; padding: 5px;">
             <option value="null">Selecione um Deus</option>
             <option value="amaterasu_1">Amaterasu</option>
+            <option value="demeter_1">Demeter</option>
             <option value="kronos_1">Cronos</option>
             <option value="freyr_1">Frey</option>
             <option value="fuxi_1">Fuxi</option>
@@ -529,6 +530,7 @@
           <select id="versusSelect2" style="width: 100%; padding: 5px;">
             <option value="null">Selecione um Deus</option>
             <option value="amaterasu_2">Amaterasu</option>
+            <option value="demeter_2">Demeter</option>
             <option value="kronos_2">Cronos</option>
             <option value="freyr_2">Frey</option>
             <option value="fuxi_2">Fuxi</option>
@@ -841,7 +843,7 @@
   </div>
 
   <script>
-    const gods = ['poseidon', 'zeus', 'hades', 'ra', 'isis', 'set', 'thor', 'odin', 'loki', 'freyr', 'kronos', 'oranos', 'gaia', 'nuwa', 'fuxi', 'shennong', 'amaterasu', 'tsukuyomi', 'susanoo'];
+    const gods = ['poseidon', 'zeus', 'hades', 'demeter', 'ra', 'isis', 'set', 'thor', 'odin', 'loki', 'freyr', 'kronos', 'oranos', 'gaia', 'nuwa', 'fuxi', 'shennong', 'amaterasu', 'tsukuyomi', 'susanoo'];
 
     const allMaps = ['random', 'acropolis', 'air', 'alfheim', 'anatolia', 'archipelago', 'arena', 'asograsslands', 'bamboogrove', 'blacksea', 'bluelagoon', 'elysium', 'erebus', 'ghostlake', 'giza', 'goldrush', 'highland', 'ironwood', 'islands', 'jotunheim', 'kerlaugar', 'kii', 'landunknown', 'landnomad', 'marsh', 'mediterranean', 'megalopolis', 'midgard', 'mirage', 'mirkwood', 'mountolympus', 'muspellheim', 'nileshallows', 'nomad', 'oasis', 'okuchichibu', 'peachblossomland', 'rivernile', 'riverstyx', 'savannah', 'seaofworms', 'senjogahara', 'setonaikai', 'silkroad', 'snakedance', 'steppe', 'teammigration', 'tundra', 'valleyofkings', 'vindlandsaga', 'wateringhole', 'yellowriver'];
 
@@ -1710,21 +1712,25 @@
         // Atualiza os campos de texto comuns
         atualizarTodosCampos(JSON.stringify(dados));
 
-        // ATUALIZAÇÃO LOGO: Atualiza o botão com o nome vindo do arquivo carregado
+        // ATUALIZAÇÃO LOGO... (mantém seu código original)
         if (mapaCarregado.logo_camp) {
           const btn = document.getElementById("btnLogoCamp");
           if (btn) btn.innerText = "Logo: " + mapaCarregado.logo_camp;
-          // Escondemos o preview pois o arquivo de texto não contém a imagem real
           document.getElementById("previewContainer").style.display = "none";
         }
 
+        // --- INÍCIO DA LIMPEZA (Adicione estas linhas abaixo) ---
+        // Isso limpa o HTML dos grids de deuses e mapas antes de recarregar
+        document.querySelectorAll('.god-grid, .map-grid').forEach(grid => {
+            grid.innerHTML = ''; 
+        });
+        // --- FIM DA LIMPEZA ---
+
         // ATUALIZAÇÃO MAPAS: Recarrega as grades visuais
-        // Se você mudou para 'atualizarGridMapas', chame elas aqui:
         if (typeof atualizarGridMapas === "function") {
           atualizarGridMapas(1);
           atualizarGridMapas(2);
         } else {
-          // Caso ainda use o nome antigo da função:
           carregarItens('map', 1);
           carregarItens('map', 2);
         }
