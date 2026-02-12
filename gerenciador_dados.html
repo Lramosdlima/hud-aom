@@ -1980,7 +1980,7 @@
             const chosen = normalizarNome(ev.chosenOptionId);
             if (!chosen || p === "NONE") return;
 
-            let target = p === "HOST" ? hostPlayer : guestPlayer;
+            let target = p === "HOST" ? hostPlayer : p === "GUEST" ? guestPlayer : null;
 
             if (t === "pick") picks[target].push(`${chosen}_p`);
             if (t === "ban") bans[target].push(`${chosen}_b`);
@@ -2173,7 +2173,7 @@
               if (mapaSelect) mapaSelect.value = chosen;
             }
 
-            let target = p === "HOST" ? hostPlayer : guestPlayer;
+            let target = p === "HOST" ? hostPlayer : p === "GUEST" ? guestPlayer : null;
 
             if (t === "pick") picksPorJogador[target].push(`${mapa}_p`);
             if (t === "ban") bansPorJogador[target].push(`${mapa}_b`);
