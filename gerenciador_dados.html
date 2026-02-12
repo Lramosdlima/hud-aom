@@ -340,6 +340,18 @@
         </div>
       </div>
 
+      <div style="margin-bottom: 10px;">
+        <label for="interface">Interface</label><br>
+        <small style="display: block; text-align: left; color: #bbb; margin-bottom: 5px; font-style: italic;">
+          Essa interface muda as animações no Pré Match.
+        </small>
+        <select id="interface" style="width: 100%; padding: 5px;">
+          <option value="1">Básico</option>
+          <option value="2">Médio</option>
+          <option value="3">Avançado</option>
+        </select>
+      </div>
+
       <div style="margin-bottom: 10px; display: flex;  align-items: center; gap: 10px;">
 
         <div style="display: flex; flex-direction: column; flex-grow: 2">
@@ -922,6 +934,7 @@
       }
 
       // Restaurar campos básicos
+      if (dados.interface) document.getElementById("interface").value = dados.interface;
       if (dados.logo_camp) document.getElementById("logo_camp").value = dados.logo_camp;
       if (dados.mapa) document.getElementById("mapaSelect").value = dados.mapa;
 
@@ -1477,7 +1490,7 @@
         return [...picks, ...bans];
       }
 
-      dados.push('interface= 1');
+      dados.push(`interface=${document.getElementById("interface").value || "1"}`);
       dados.push(`letreiro= ${document.getElementById('letreiro').value}`);
       dados.push(`logo_camp= ${document.getElementById('logo_camp').value}`);
 
@@ -1521,6 +1534,7 @@
 
       // --- Restaura os principais campos ---
       if (mapa.letreiro) document.getElementById("letreiro").value = mapa.letreiro;
+      if (mapa.interface) document.getElementById("interface").value = mapa.interface;
 
       // ATUALIZAÇÃO LOGO: Restaura o valor oculto e o texto do botão
       if (mapa.logo_camp) {
@@ -1654,7 +1668,7 @@
 
         dados.push('\nparticulas= sim');
 
-        dados.push(`\ninterface= 1`);
+        dados.push(`\ninterface= ${document.getElementById("interface").value || "1"}`);
 
         // Recupera partidas anteriores do localStorage
         const salvosAntigos = localStorage.getItem("dadosInterface");
